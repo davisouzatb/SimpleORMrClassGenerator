@@ -76,6 +76,8 @@ type
     edtPrefixoEntidades: TLabeledEdit;
     edtCaminhoArquivos: TLabeledEdit;
     cbDriver: TComboBox;
+    ckCapitalizar: TCheckBox;
+    ckRemoverCaracter: TCheckBox;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -176,6 +178,8 @@ begin
     Application.ProcessMessages;
     if chkListaTabelas.Checked[j] then
       TModelEntityGenerate.New
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
         .Connection(FConnection)
         .Diretorio(edtCaminhoArquivos.Text)
         .Prefixo(edtPrefixoEntidades.Text)

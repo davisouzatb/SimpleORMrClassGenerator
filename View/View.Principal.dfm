@@ -1320,7 +1320,7 @@ object FPrincipal: TFPrincipal
       Width = 611
       Height = 527
       Align = alClient
-      ActiveCard = CardConexao
+      ActiveCard = CardGerador
       Caption = 'CardPanel1'
       TabOrder = 0
       object CardConexao: TCard
@@ -1566,6 +1566,26 @@ object FPrincipal: TFPrincipal
               EditLabel.Caption = 'Caminho dos Arquivos'
               TabOrder = 2
               Text = 'D:\teste'
+            end
+            object ckCapitalizar: TCheckBox
+              Left = 232
+              Top = 61
+              Width = 113
+              Height = 17
+              Caption = 'Capitalizar Nomes'
+              Checked = True
+              State = cbChecked
+              TabOrder = 3
+            end
+            object ckRemoverCaracter: TCheckBox
+              Left = 232
+              Top = 81
+              Width = 113
+              Height = 17
+              Caption = 'Remover Caracter'
+              Checked = True
+              State = cbChecked
+              TabOrder = 4
             end
           end
           object mResult: TMemo

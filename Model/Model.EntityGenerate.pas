@@ -20,12 +20,17 @@ type
         FDiretorio : String;
         FPrefixo : String;
         FTabela : String;
+        FCaptalizar : Boolean;
+        FRemoverCaracter : Boolean;
         function GetFieldType( aClassName : String) : String;
+        function FormataNome( aValue : String) : String;
       public
         constructor Create;
         Destructor Destroy; override;
         class function New : iModelEntityGenerate;
         function Connection( aConnection : iModelDAOConnection) : iModelEntityGenerate;
+        function Captalizar( aValue: Boolean) : iModelEntityGenerate;
+        function RemoverCaracter( aValue: Boolean) : iModelEntityGenerate;
         function Dispay( aDisplay : TProc<string>) : iModelEntityGenerate;
         function Diretorio( aValue : String) : iModelEntityGenerate;
         function Prefixo( aValue : String) : iModelEntityGenerate;
@@ -37,6 +42,12 @@ implementation
 
 { TModelEntityGenerate }
 
+function TModelEntityGenerate.Captalizar(aValue: Boolean): iModelEntityGenerate;
+begin
+  Result := Self;
+  FCaptalizar := aValue;
+end;
+
 function TModelEntityGenerate.Connection(aConnection: iModelDAOConnection): iModelEntityGenerate;
 begin
   Result := Self;
@@ -45,7 +56,8 @@ end;
 
 constructor TModelEntityGenerate.Create;
 begin
-
+  FCaptalizar := False;
+  FRemoverCaracter := False;
 end;
 
 destructor TModelEntityGenerate.Destroy;
@@ -85,7 +97,7 @@ begin
     .Open;
 
     mUnit.Clear;
-    mUnit.Add('unit ' + FPrefixo + '.' + RemoveAcento(FTabela) + ';');
+    mUnit.Add('unit ' + FPrefixo + '.' + FormataNome(FTabela) + ';');
     mUnit.Add('');
     mUnit.Add('interface');
     mUnit.Add('');
@@ -98,12 +110,12 @@ begin
     mUnit.Add('');
     mUnit.Add('type');
     mUnit.Add('  [Tabela(' + QuotedStr(RemoveAcento(FTabela)) + ')]');
-    mUnit.Add('  T' + RemoveAcento(FTabela) + ' = class');
+    mUnit.Add('  T' + FormataNome(FTabela) + ' = class');
     mUnit.Add('  private');
     for I := 0 to FQuery.DataSet.FieldCount - 1 do
     begin
       campo := GetFieldType(FQuery.DataSet.Fields[i].ClassName) + ';';
-      mUnit.Add('    F' + RemoveAcento(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo);
+      mUnit.Add('    F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo);
     end;
     mUnit.Add('');
     mUnit.Add('  public');
@@ -120,7 +132,7 @@ begin
         mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + '), PK, AutoInc]')
       else
         mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + ')]');
-      mUnit.Add('    property ' + RemoveAcento(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo + ' read F' + RemoveAcento(FQuery.DataSet.Fields[i].FieldName) + ' write F' + RemoveAcento(FQuery.DataSet.Fields[i].FieldName) + ';');
+      mUnit.Add('    property ' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo + ' read F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ' write F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ';');
     end;
     mUnit.Add('');
     mUnit.Add('    function ToJSONObject: TJsonObject;');
@@ -130,23 +142,23 @@ begin
     mUnit.Add('');
     mUnit.Add('implementation');
     mUnit.Add('');
-    mUnit.Add('constructor T' + RemoveAcento(FTabela) + '.Create;');
+    mUnit.Add('constructor T' + FormataNome(FTabela) + '.Create;');
     mUnit.Add('begin');
     mUnit.Add('');
     mUnit.Add('end;');
     mUnit.Add('');
-    mUnit.Add('destructor T' + RemoveAcento(FTabela) + '.Destroy;');
+    mUnit.Add('destructor T' + FormataNome(FTabela) + '.Destroy;');
     mUnit.Add('begin');
     mUnit.Add('');
     mUnit.Add('  inherited;');
     mUnit.Add('end;');
     mUnit.Add('');
-    mUnit.Add('function T' + RemoveAcento(FTabela) + '.ToJSONObject: TJsonObject;');
+    mUnit.Add('function T' + FormataNome(FTabela) + '.ToJSONObject: TJsonObject;');
     mUnit.Add('begin');
     mUnit.Add('  Result := TJson.ObjectToJsonObject(Self);');
     mUnit.Add('end;');
     mUnit.Add('');
-    mUnit.Add('function T' + RemoveAcento(FTabela) + '.ToJsonString: string;');
+    mUnit.Add('function T' + FormataNome(FTabela) + '.ToJsonString: string;');
     mUnit.Add('begin');
     mUnit.Add('  result := TJson.ObjectToJsonString(self);');
     mUnit.Add('end;');
@@ -155,7 +167,7 @@ begin
 
     if not DirectoryExists(FDiretorio) then
       CreateDir(FDiretorio);
-    mUnit.SaveToFile(FDiretorio+'\'+FPrefixo+'.'+RemoveAcento(FTabela)+'.pas');
+    mUnit.SaveToFile(FDiretorio+'\'+FPrefixo+'.'+FormataNome(FTabela)+'.pas');
 
     if Assigned(FDisplay) then
      FDisplay(mUnit.Text);
@@ -201,6 +213,11 @@ begin
     Result := _string+ '   {'+aClassName+'}';
 end;
 
+function TModelEntityGenerate.FormataNome(aValue: String): String;
+begin
+  Result := Capitaliza(RemoveAcento(aValue) , FCaptalizar, FRemoverCaracter);
+end;
+
 class function TModelEntityGenerate.New: iModelEntityGenerate;
 begin
   Result := Self.Create;
@@ -210,6 +227,12 @@ function TModelEntityGenerate.Prefixo(aValue: String): iModelEntityGenerate;
 begin
   Result := Self;
   FPrefixo := aValue;
+end;
+
+function TModelEntityGenerate.RemoverCaracter(aValue: Boolean): iModelEntityGenerate;
+begin
+  Result := Self;
+  FRemoverCaracter := aValue;
 end;
 
 function TModelEntityGenerate.Tabela(aValue: String): iModelEntityGenerate;

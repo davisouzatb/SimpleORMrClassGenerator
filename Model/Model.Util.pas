@@ -6,8 +6,40 @@ uses
   System.SysUtils;
 
   function RemoveAcento( aValue : String) : string;
+  function Capitaliza( aValue : String; Captalizar, RemoveCaracter : Boolean) : string;
 
 implementation
+
+function Capitaliza( aValue : String; Captalizar, RemoveCaracter : Boolean) : string;
+var
+  flag: Boolean;
+  i: Byte;
+  t: string;
+begin
+  t := aValue;
+  if Captalizar then
+  begin
+    flag := True;
+    aValue := AnsiLowerCase(aValue);
+    t := EmptyStr;
+    for i := 1 to Length(aValue) do
+    begin
+      if flag then
+        t := t + AnsiUpperCase(aValue[i])
+      else
+        t := t + aValue[i];
+      flag := (aValue[i] in [' ','_','-', '[',']', '(', ')']);
+    end;
+  end;
+  if RemoveCaracter then
+    t := t.Replace(' ','')
+          .Replace('_','')
+          .Replace('-','')
+          .Replace(',','')
+          .Replace(', ','');
+
+  Result := t;
+end;
 
 function RemoveAcento(aValue: String): string;
 var
