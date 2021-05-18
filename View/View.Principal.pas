@@ -129,6 +129,7 @@ begin
     2 : Drive := 'SQLite';
     3 : Drive := 'PG';
     4 : Drive := 'MySQL';
+    5 : Drive := 'Ora';
   end;
   try
     FConnection.

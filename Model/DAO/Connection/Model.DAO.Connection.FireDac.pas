@@ -36,6 +36,11 @@ uses
   FireDAC.Phys.MySQLDef,
   FireDAC.Phys.ODBC,
   FireDAC.Phys.ODBCDef,
+  FireDAC.Phys.Oracle,
+  FireDAC.Phys.OracleCli,
+  FireDAC.Phys.OracleDef,
+  FireDAC.Phys.OracleMeta,
+  FireDAC.Phys.OracleWrapper,
   Model.DAO.Interfaces,
   System.SysUtils;
 
@@ -67,6 +72,7 @@ type
         procedure GetTableListFirebird;
         procedure GetTableListSQLite;
         procedure GetTableListMSSQL;
+        procedure GetTableListOracle;
       public
         constructor Create( aConnection : iModelDAOConnection);
         Destructor Destroy; override;
@@ -83,6 +89,8 @@ type
 
 implementation
 
+uses
+  System.Classes;
 { TModelDAOConnectionQuery }
 
 function TModelDAOConnectionQuery.Active(aValue: Boolean): iModelDAOConnectionQuery;
@@ -126,8 +134,11 @@ begin
     GetTableListSQLite
   else if FConnection.Params.DriverID = 'MSSQL' then
     GetTableListMSSQL
+  else if FConnection.Params.DriverID = 'Ora' then
+    GetTableListOracle
   else
     raise Exception.Create('GetTableList não implementada!');
+
   Result := FQuery;
 end;
 
@@ -149,6 +160,31 @@ end;
 procedure TModelDAOConnectionQuery.GetTableListMSSQL;
 begin
   FQuery.Open('SELECT TABLE_NAME FROM information_schema.tables order by TABLE_NAME;');
+end;
+
+procedure TModelDAOConnectionQuery.GetTableListOracle;
+var
+  aSQL : TStringList;
+begin
+  aSQL := TStringList.Create;
+  try
+    aSQL.Clear;
+    aSQL.BeginUpdate;
+    aSQL.Add('SELECT');
+    aSQL.Add('    lower(t.owner) || ''.'' || t.table_name as table_name ');
+//    aSQL.Add('    t.tablespace_name');
+//    aSQL.Add('  , t.table_name');
+//    aSQL.Add('  , t.owner');
+    aSQL.Add('from all_tables t');
+    aSQL.Add('where not (t.table_name like ' + QuotedStr('%$%') + ')'); // não listar as tabelas do sistema
+    aSQL.Add('order by');
+    aSQL.Add('    t.table_name');
+    aSQL.EndUpdate;
+
+    FQuery.Open(aSQL.Text);
+  finally
+    aSQL.DisposeOf;
+  end;
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListSQLite;

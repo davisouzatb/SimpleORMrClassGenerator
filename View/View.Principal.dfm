@@ -1399,7 +1399,8 @@ object FPrincipal: TFPrincipal
                 'SQL Server'
                 'SQLite'
                 'PostgreSQL'
-                'MySQL')
+                'MySQL'
+                'Ora')
             end
           end
           object Panel2: TPanel
@@ -1425,6 +1426,10 @@ object FPrincipal: TFPrincipal
       object pgGerador: TTabSheet
         Caption = 'Gerador de Classes'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel11: TPanel
           Left = 0
           Top = 0
