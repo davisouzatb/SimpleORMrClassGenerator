@@ -9,21 +9,19 @@ uses
   System.Variants,
   System.Classes,
   Vcl.Graphics,
+  Vcl.ExtCtrls,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
   Vcl.Imaging.pngimage,
-  Vcl.ExtCtrls,
   Vcl.CategoryButtons,
-  Vcl.WinXCtrls,
   System.Actions,
-  System.Threading,
-  Vcl.ActnList,
-  System.ImageList,
+  Vcl.WinXCtrls,
   Vcl.ImgList,
-  Vcl.WinXPanels,
   Vcl.CheckLst,
+  Vcl.ComCtrls,
+  System.ImageList,
   Model.DAO.Interfaces,
   Model.DAO.Connection.FireDac,
   Model.EntityGenerate;
@@ -43,41 +41,47 @@ type
     catPrincipal: TCategoryButtons;
     ImageList1: TImageList;
     catConfig: TCategoryButtons;
-    SubDfe: TSplitView;
-    CatDFe: TCategoryButtons;
     pnEmbeded: TPanel;
     mListaFormAberta: TSplitView;
     ListForms: TListBox;
     Timer1: TTimer;
-    SubTributacao: TSplitView;
-    CatTributacao: TCategoryButtons;
-    CardPanel1: TCardPanel;
-    CardConexao: TCard;
-    CardGerador: TCard;
-    Panel2: TPanel;
-    Panel3: TPanel;
-    cpDrive: TCardPanel;
-    Panel4: TPanel;
-    cpFirebird: TCard;
-    edtCaminhoBanco: TLabeledEdit;
-    edtUsuario: TLabeledEdit;
-    edtSenha: TLabeledEdit;
+    tabGeral: TPageControl;
+    pgConexao: TTabSheet;
+    pgGerador: TTabSheet;
+    Panel9: TPanel;
+    Panel10: TPanel;
+    edtCaminhoBanco: TEdit;
+    edtUsuario: TEdit;
+    edtSenha: TEdit;
     btnConectar: TButton;
-    edtServidor: TLabeledEdit;
+    edtServidor: TEdit;
+    Panel4: TPanel;
+    cbDriver: TComboBox;
+    Panel2: TPanel;
+    Panel11: TPanel;
+    Panel3: TPanel;
+    pnContent: TPanel;
     Panel6: TPanel;
     chkListaTabelas: TCheckListBox;
     Panel7: TPanel;
-    Button1: TButton;
-    Button2: TButton;
+    btMarcar: TButton;
+    btDesmarcar: TButton;
     Panel5: TPanel;
     Panel8: TPanel;
-    Button3: TButton;
+    btGerarClass: TButton;
+    edtPrefixoEntidades: TEdit;
+    edtCaminhoArquivos: TEdit;
     mResult: TMemo;
-    edtPrefixoEntidades: TLabeledEdit;
-    edtCaminhoArquivos: TLabeledEdit;
-    cbDriver: TComboBox;
+    edtPorta: TEdit;
+    Label4: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
     ckCapitalizar: TCheckBox;
     ckRemoverCaracter: TCheckBox;
+    Label8: TLabel;
+    Label9: TLabel;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -87,15 +91,17 @@ type
     procedure catPrincipalCategories0Items0Click(Sender: TObject);
     procedure btnConectarClick(Sender: TObject);
     procedure GetTableList;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure btMarcarClick(Sender: TObject);
+    procedure btDesmarcarClick(Sender: TObject);
+    procedure btGerarClassClick(Sender: TObject);
+    procedure cbDriverChange(Sender: TObject);
   private
     FConnection : iModelDAOConnection;
     { Private declarations }
     procedure Notify(Value : String);
     procedure WorkArea;
     procedure HabilitaTimer;
+    procedure HabilitaTabs( aTab : TTabSheet);
   public
     { Public declarations }
   end;
@@ -131,11 +137,12 @@ begin
       Database(edtCaminhoBanco.Text).
       UserName(edtUsuario.Text).
       Password(edtSenha.Text).
-      AddParam('Server='+ edtServidor.Text).
+      Server(edtServidor.Text).
+      Port(edtPorta.Text).
       AutoReconnect(True).
     Connected(True);
 
-    CardPanel1.ActiveCard := CardGerador;
+    HabilitaTabs(pgGerador);
 
     GetTableList;
   except on E: Exception do
@@ -143,7 +150,7 @@ begin
   end;
 end;
 
-procedure TFPrincipal.Button1Click(Sender: TObject);
+procedure TFPrincipal.btMarcarClick(Sender: TObject);
 var
   i : integer;
 begin
@@ -153,7 +160,7 @@ begin
   end;
 end;
 
-procedure TFPrincipal.Button2Click(Sender: TObject);
+procedure TFPrincipal.btDesmarcarClick(Sender: TObject);
 var
   i : integer;
 begin
@@ -163,7 +170,7 @@ begin
   end;
 end;
 
-procedure TFPrincipal.Button3Click(Sender: TObject);
+procedure TFPrincipal.btGerarClassClick(Sender: TObject);
 var
   j : Integer;
 begin
@@ -178,12 +185,12 @@ begin
     Application.ProcessMessages;
     if chkListaTabelas.Checked[j] then
       TModelEntityGenerate.New
-        .Captalizar(ckCapitalizar.Checked)
-        .RemoverCaracter(ckRemoverCaracter.Checked)
         .Connection(FConnection)
         .Diretorio(edtCaminhoArquivos.Text)
         .Prefixo(edtPrefixoEntidades.Text)
         .Tabela(chkListaTabelas.Items[j].Trim)
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
         .Dispay(Notify)
       .Generate;
   end;
@@ -194,7 +201,7 @@ procedure TFPrincipal.FormCreate(Sender: TObject);
 begin
   HabilitaTimer;
   FConnection := TModelDAOConnection.New;
-  CardPanel1.ActiveCard := CardConexao;
+  HabilitaTabs(pgConexao);
 end;
 
 procedure TFPrincipal.FormResize(Sender: TObject);
@@ -244,6 +251,14 @@ begin
   Self.Height := Screen.WorkAreaHeight + 3;
 end;
 
+procedure TFPrincipal.HabilitaTabs( aTab : TTabSheet);
+begin
+  pgGerador.TabVisible := False;
+  pgConexao.TabVisible := False;
+
+  aTab.TabVisible := True;
+end;
+
 procedure TFPrincipal.HabilitaTimer;
 begin
   Timer1Timer(nil);
@@ -257,14 +272,25 @@ end;
 
 procedure TFPrincipal.Action2Execute(Sender: TObject);
 begin
-  CardPanel1.ActiveCard := CardGerador;
+  HabilitaTabs(pgGerador);
   OnResize(nil);
 end;
 
 procedure TFPrincipal.catPrincipalCategories0Items0Click(Sender: TObject);
 begin
-  CardPanel1.ActiveCard := CardConexao;
+  HabilitaTabs(pgConexao);
   OnResize(nil);
+end;
+
+procedure TFPrincipal.cbDriverChange(Sender: TObject);
+begin
+  case cbDriver.ItemIndex of
+    0 : edtPorta.Text := '3050';
+    1 : edtPorta.Text := '1433';
+    3 : edtPorta.Text := '5432'
+    else
+        edtPorta.Text := '';
+  end;
 end;
 
 procedure TFPrincipal.logoClick(Sender: TObject);

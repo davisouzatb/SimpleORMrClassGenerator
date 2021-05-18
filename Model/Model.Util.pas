@@ -28,7 +28,7 @@ begin
         t := t + AnsiUpperCase(aValue[i])
       else
         t := t + aValue[i];
-      flag := (aValue[i] in [' ','_','-', '[',']', '(', ')']);
+      flag := (CharInSet(aValue[i],[' ','_','-', '[',']', '(', ')']));
     end;
   end;
   if RemoveCaracter then

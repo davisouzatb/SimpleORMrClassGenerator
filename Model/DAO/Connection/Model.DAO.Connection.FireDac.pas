@@ -52,6 +52,8 @@ type
       function Database( aValue : String) : iModelDAOConnection;
       function Password( aValue : String) : iModelDAOConnection;
       function UserName( aValue : String) : iModelDAOConnection;
+      function Server( aValue : String) : iModelDAOConnection;
+      function Port( aValue : String) : iModelDAOConnection;
       function Connected( aValue : Boolean) : iModelDAOConnection;
       function Connection : TCustomConnection;
       function AutoReconnect( aValue : Boolean) : iModelDAOConnection;
@@ -234,6 +236,19 @@ function TModelDAOConnection.Password(aValue: String): iModelDAOConnection;
 begin
   Result := Self;
   FConnection.Params.Password := aValue;
+end;
+
+function TModelDAOConnection.Port(aValue: String): iModelDAOConnection;
+begin
+  Result := Self;
+  if not aValue.IsEmpty then
+    FConnection.Params.Add('Port='+aValue);
+end;
+
+function TModelDAOConnection.Server(aValue: String): iModelDAOConnection;
+begin
+  Result := Self;
+  FConnection.Params.Add('Server='+aValue);
 end;
 
 function TModelDAOConnection.UserName(aValue: String): iModelDAOConnection;

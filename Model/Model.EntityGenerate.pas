@@ -182,6 +182,7 @@ const _Real    = 'double';
       _string  = 'string';
       _Date    = 'TDate';
       _DateTime= 'TDateTime';
+      _Blob    = 'TBlobField';
 begin
   if aClassName = 'TIntegerField' then
     Result := _Integer
@@ -209,6 +210,8 @@ begin
     Result := _string
   else if aClassName = 'TFloatField' then
     Result := _Real
+   else if aClassName = 'TBlobField' then
+    Result := _Blob
   else
     Result := _string+ '   {'+aClassName+'}';
 end;

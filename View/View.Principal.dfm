@@ -11,7 +11,7 @@ object FPrincipal: TFPrincipal
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
   WindowState = wsMaximized
@@ -1019,20 +1019,21 @@ object FPrincipal: TFPrincipal
   object Menu: TSplitView
     Left = 0
     Top = 73
-    Width = 189
+    Width = 57
     Height = 527
     CloseStyle = svcCompact
     CompactWidth = 57
+    Opened = False
     OpenedWidth = 189
     Placement = svpLeft
     TabOrder = 1
     DesignSize = (
-      189
+      57
       527)
     object Image6: TImage
       Left = 0
       Top = 0
-      Width = 189
+      Width = 57
       Height = 527
       Align = alClient
       Picture.Data = {
@@ -1212,7 +1213,7 @@ object FPrincipal: TFPrincipal
       TabOrder = 0
     end
     object catConfig: TCategoryButtons
-      Left = -34
+      Left = -28
       Top = 464
       Width = 219
       Height = 79
@@ -1247,356 +1248,354 @@ object FPrincipal: TFPrincipal
       TabOrder = 1
     end
   end
-  object SubDfe: TSplitView
-    Left = 189
-    Top = 73
-    Width = 0
-    Height = 527
-    Color = 16682343
-    Opened = False
-    OpenedWidth = 200
-    Placement = svpLeft
-    TabOrder = 2
-    object CatDFe: TCategoryButtons
-      Left = 0
-      Top = -30
-      Width = 207
-      Height = 331
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      ButtonFlow = cbfVertical
-      ButtonHeight = 60
-      ButtonOptions = [boFullSize, boShowCaptions]
-      Categories = <
-        item
-          Color = clNone
-          Collapsed = False
-          Items = <
-            item
-              Caption = 'Emissor'
-              ImageIndex = 7
-            end
-            item
-              Caption = 'Par'#226'metros'
-              ImageIndex = 9
-            end
-            item
-              Caption = 'Cidades'
-              ImageIndex = 10
-            end
-            item
-              Caption = 'Programa'
-              ImageIndex = 8
-            end
-            item
-              Caption = 'Chave de Libera'#231#227'o'
-              ImageIndex = 11
-            end>
-        end>
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -16
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      HotButtonColor = 16742732
-      Images = ImageList1
-      RegularButtonColor = clNone
-      SelectedButtonColor = clNone
-      TabOrder = 0
-    end
-  end
   object pnEmbeded: TPanel
-    Left = 189
+    Left = 57
     Top = 73
-    Width = 611
+    Width = 743
     Height = 527
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 3
-    object CardPanel1: TCardPanel
+    TabOrder = 2
+    object tabGeral: TPageControl
       Left = 0
       Top = 0
-      Width = 611
+      Width = 743
       Height = 527
+      ActivePage = pgConexao
       Align = alClient
-      ActiveCard = CardGerador
-      Caption = 'CardPanel1'
+      MultiLine = True
       TabOrder = 0
-      object CardConexao: TCard
-        Left = 1
-        Top = 1
-        Width = 609
-        Height = 525
-        Caption = 'CardConexao'
-        CardIndex = 0
-        TabOrder = 0
-        object Panel2: TPanel
+      object pgConexao: TTabSheet
+        Caption = 'Conex'#227'o'
+        object Panel9: TPanel
           Left = 0
           Top = 0
-          Width = 609
-          Height = 40
-          Align = alTop
-          BevelOuter = bvNone
-          Caption = 'Configura'#231#227'o da Conex'#227'o'
-          Color = 12615680
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -19
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = []
-          ParentBackground = False
-          ParentFont = False
-          TabOrder = 0
-        end
-        object cpDrive: TCardPanel
-          Left = 0
-          Top = 81
-          Width = 609
-          Height = 444
+          Width = 735
+          Height = 499
           Align = alClient
-          ActiveCard = cpFirebird
-          TabOrder = 1
-          object cpFirebird: TCard
-            Left = 1
-            Top = 1
-            Width = 607
-            Height = 442
-            Caption = 'cdFirebird'
-            CardIndex = 0
-            TabOrder = 0
-            object edtCaminhoBanco: TLabeledEdit
+          BevelOuter = bvNone
+          TabOrder = 0
+          object Panel10: TPanel
+            Left = 0
+            Top = 81
+            Width = 735
+            Height = 418
+            Align = alClient
+            BevelEdges = [beBottom]
+            BevelOuter = bvNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            object Label4: TLabel
+              Left = 24
+              Top = 59
+              Width = 40
+              Height = 15
+              Caption = 'Usu'#225'rio'
+            end
+            object Label3: TLabel
+              Left = 24
+              Top = 9
+              Width = 154
+              Height = 15
+              Caption = 'Caminho do Banco de Dados'
+            end
+            object Label5: TLabel
+              Left = 24
+              Top = 106
+              Width = 32
+              Height = 15
+              Caption = 'Senha'
+            end
+            object Label6: TLabel
+              Left = 24
+              Top = 153
+              Width = 43
+              Height = 15
+              Caption = 'Servidor'
+            end
+            object Label7: TLabel
+              Left = 24
+              Top = 200
+              Width = 28
+              Height = 15
+              Caption = 'Porta'
+            end
+            object edtCaminhoBanco: TEdit
               Left = 24
               Top = 30
               Width = 393
-              Height = 21
-              EditLabel.Width = 136
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Caminho do Banco de Dados'
+              Height = 23
               TabOrder = 0
               Text = 'D:\Programas\DSist\Database\Dsist.FDB'
             end
-            object edtUsuario: TLabeledEdit
+            object edtUsuario: TEdit
               Left = 24
-              Top = 70
+              Top = 78
               Width = 121
-              Height = 21
-              EditLabel.Width = 36
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Usu'#225'rio'
+              Height = 23
               TabOrder = 1
               Text = 'sysdba'
             end
-            object edtSenha: TLabeledEdit
+            object edtSenha: TEdit
               Left = 24
-              Top = 109
+              Top = 125
               Width = 121
-              Height = 21
-              EditLabel.Width = 30
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Senha'
+              Height = 23
               TabOrder = 2
               Text = 'masterkey'
             end
             object btnConectar: TButton
               Left = 24
-              Top = 191
+              Top = 247
               Width = 91
               Height = 25
               Caption = 'Conectar'
-              TabOrder = 3
+              TabOrder = 5
               OnClick = btnConectarClick
             end
-            object edtServidor: TLabeledEdit
+            object edtServidor: TEdit
               Left = 24
-              Top = 148
+              Top = 172
               Width = 121
-              Height = 21
-              EditLabel.Width = 40
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Servidor'
-              TabOrder = 4
+              Height = 23
+              TabOrder = 3
               Text = 'localhost'
             end
+            object edtPorta: TEdit
+              Left = 24
+              Top = 218
+              Width = 121
+              Height = 23
+              TabOrder = 4
+              Text = '3050'
+            end
           end
-        end
-        object Panel4: TPanel
-          Left = 0
-          Top = 40
-          Width = 609
-          Height = 41
-          Align = alTop
-          TabOrder = 2
-          object cbDriver: TComboBox
-            Left = 25
-            Top = 6
-            Width = 145
-            Height = 21
-            Style = csDropDownList
-            ItemIndex = 0
+          object Panel4: TPanel
+            Left = 0
+            Top = 40
+            Width = 735
+            Height = 41
+            Align = alTop
+            BevelEdges = [beBottom]
+            BevelOuter = bvNone
             TabOrder = 0
-            Text = 'Firebird'
-            Items.Strings = (
-              'Firebird'
-              'SQL Server'
-              'SQLite'
-              'PostgreSQL'
-              'MySQL')
+            object cbDriver: TComboBox
+              Left = 24
+              Top = 6
+              Width = 145
+              Height = 21
+              Style = csDropDownList
+              ItemIndex = 0
+              TabOrder = 0
+              Text = 'Firebird'
+              OnChange = cbDriverChange
+              Items.Strings = (
+                'Firebird'
+                'SQL Server'
+                'SQLite'
+                'PostgreSQL'
+                'MySQL')
+            end
+          end
+          object Panel2: TPanel
+            Left = 0
+            Top = 0
+            Width = 735
+            Height = 40
+            Align = alTop
+            BevelOuter = bvNone
+            Caption = 'Configura'#231#227'o da Conex'#227'o'
+            Color = 12615680
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -19
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
           end
         end
       end
-      object CardGerador: TCard
-        Left = 1
-        Top = 1
-        Width = 609
-        Height = 525
-        Caption = 'CardGerador'
-        CardIndex = 1
-        TabOrder = 1
-        object Panel3: TPanel
+      object pgGerador: TTabSheet
+        Caption = 'Gerador de Classes'
+        ImageIndex = 1
+        object Panel11: TPanel
           Left = 0
           Top = 0
-          Width = 609
-          Height = 40
-          Align = alTop
-          BevelOuter = bvNone
-          Caption = 'Gerador'
-          Color = 12615680
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -19
-          Font.Name = 'Segoe UI Semibold'
-          Font.Style = []
-          ParentBackground = False
-          ParentFont = False
-          TabOrder = 0
-        end
-        object Panel6: TPanel
-          Left = 0
-          Top = 40
-          Width = 241
-          Height = 485
-          Align = alLeft
-          BevelOuter = bvNone
-          TabOrder = 1
-          object chkListaTabelas: TCheckListBox
-            AlignWithMargins = True
-            Left = 0
-            Top = 57
-            Width = 241
-            Height = 428
-            Margins.Left = 0
-            Margins.Top = 0
-            Margins.Right = 0
-            Margins.Bottom = 0
-            Align = alClient
-            ItemHeight = 13
-            TabOrder = 0
-          end
-          object Panel7: TPanel
-            Left = 0
-            Top = 0
-            Width = 241
-            Height = 57
-            Align = alTop
-            BevelOuter = bvNone
-            TabOrder = 1
-            object Button1: TButton
-              Left = 16
-              Top = 16
-              Width = 97
-              Height = 25
-              Caption = 'Marcar Todas'
-              TabOrder = 0
-              OnClick = Button1Click
-            end
-            object Button2: TButton
-              Left = 128
-              Top = 16
-              Width = 99
-              Height = 25
-              Caption = 'Desmarcar Todas'
-              TabOrder = 1
-              OnClick = Button2Click
-            end
-          end
-        end
-        object Panel5: TPanel
-          Left = 241
-          Top = 40
-          Width = 368
-          Height = 485
+          Width = 735
+          Height = 499
           Align = alClient
-          TabOrder = 2
-          object Panel8: TPanel
+          Caption = 'Panel11'
+          TabOrder = 0
+          object Panel3: TPanel
             Left = 1
             Top = 1
-            Width = 366
-            Height = 104
+            Width = 733
+            Height = 40
             Align = alTop
             BevelOuter = bvNone
+            Caption = 'Gerador'
+            Color = 12615680
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -19
+            Font.Name = 'Segoe UI Semibold'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
             TabOrder = 0
-            object Button3: TButton
-              Left = 5
-              Top = 73
-              Width = 75
-              Height = 25
-              Caption = 'Gerar Class'
-              TabOrder = 0
-              OnClick = Button3Click
-            end
-            object edtPrefixoEntidades: TLabeledEdit
-              Left = 101
-              Top = 77
-              Width = 121
-              Height = 21
-              EditLabel.Width = 84
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Prefixo Entidades'
-              TabOrder = 1
-              Text = 'Model.Entity'
-            end
-            object edtCaminhoArquivos: TLabeledEdit
-              Left = 5
-              Top = 30
-              Width = 345
-              Height = 21
-              EditLabel.Width = 106
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Caminho dos Arquivos'
-              TabOrder = 2
-              Text = 'D:\teste'
-            end
-            object ckCapitalizar: TCheckBox
-              Left = 232
-              Top = 61
-              Width = 113
-              Height = 17
-              Caption = 'Capitalizar Nomes'
-              Checked = True
-              State = cbChecked
-              TabOrder = 3
-            end
-            object ckRemoverCaracter: TCheckBox
-              Left = 232
-              Top = 81
-              Width = 113
-              Height = 17
-              Caption = 'Remover Caracter'
-              Checked = True
-              State = cbChecked
-              TabOrder = 4
-            end
           end
-          object mResult: TMemo
+          object pnContent: TPanel
             Left = 1
-            Top = 105
-            Width = 366
-            Height = 379
+            Top = 41
+            Width = 733
+            Height = 457
             Align = alClient
-            BevelInner = bvNone
             BevelOuter = bvNone
             TabOrder = 1
+            object Panel6: TPanel
+              Left = 0
+              Top = 0
+              Width = 241
+              Height = 457
+              Align = alLeft
+              BevelOuter = bvNone
+              TabOrder = 0
+              object chkListaTabelas: TCheckListBox
+                AlignWithMargins = True
+                Left = 0
+                Top = 57
+                Width = 241
+                Height = 400
+                Margins.Left = 0
+                Margins.Top = 0
+                Margins.Right = 0
+                Margins.Bottom = 0
+                Align = alClient
+                ItemHeight = 13
+                TabOrder = 1
+              end
+              object Panel7: TPanel
+                Left = 0
+                Top = 0
+                Width = 241
+                Height = 57
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 0
+                object btMarcar: TButton
+                  Left = 16
+                  Top = 16
+                  Width = 97
+                  Height = 25
+                  Caption = 'Marcar Todas'
+                  TabOrder = 0
+                  OnClick = btMarcarClick
+                end
+                object btDesmarcar: TButton
+                  Left = 128
+                  Top = 16
+                  Width = 99
+                  Height = 25
+                  Caption = 'Desmarcar Todas'
+                  TabOrder = 1
+                  OnClick = btDesmarcarClick
+                end
+              end
+            end
+            object Panel5: TPanel
+              Left = 241
+              Top = 0
+              Width = 492
+              Height = 457
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 1
+              object Panel8: TPanel
+                Left = 0
+                Top = 0
+                Width = 492
+                Height = 104
+                Align = alTop
+                BevelOuter = bvNone
+                TabOrder = 0
+                object Label8: TLabel
+                  Left = 101
+                  Top = 59
+                  Width = 89
+                  Height = 13
+                  Caption = 'Prefixo Entidades'
+                end
+                object Label9: TLabel
+                  Left = 5
+                  Top = 12
+                  Width = 116
+                  Height = 13
+                  Caption = 'Caminho dos Arquivos'
+                end
+                object btGerarClass: TButton
+                  Left = 5
+                  Top = 73
+                  Width = 75
+                  Height = 25
+                  Caption = 'Gerar Class'
+                  TabOrder = 1
+                  OnClick = btGerarClassClick
+                end
+                object edtPrefixoEntidades: TEdit
+                  Left = 101
+                  Top = 77
+                  Width = 121
+                  Height = 21
+                  TabOrder = 2
+                  Text = 'Model.Entity'
+                end
+                object edtCaminhoArquivos: TEdit
+                  Left = 5
+                  Top = 30
+                  Width = 345
+                  Height = 21
+                  TabOrder = 0
+                  Text = 'D:\teste'
+                end
+                object ckCapitalizar: TCheckBox
+                  Left = 232
+                  Top = 61
+                  Width = 113
+                  Height = 17
+                  Caption = 'Capitalizar Nomes'
+                  Checked = True
+                  State = cbChecked
+                  TabOrder = 3
+                end
+                object ckRemoverCaracter: TCheckBox
+                  Left = 232
+                  Top = 81
+                  Width = 113
+                  Height = 17
+                  Caption = 'Remover Caracter'
+                  Checked = True
+                  State = cbChecked
+                  TabOrder = 4
+                end
+              end
+              object mResult: TMemo
+                Left = 0
+                Top = 104
+                Width = 492
+                Height = 353
+                Align = alClient
+                BevelInner = bvNone
+                BevelOuter = bvNone
+                TabOrder = 1
+              end
+            end
           end
         end
       end
@@ -1612,7 +1611,7 @@ object FPrincipal: TFPrincipal
     Opened = False
     OpenedWidth = 200
     Placement = svpRight
-    TabOrder = 4
+    TabOrder = 3
     object ListForms: TListBox
       Left = 0
       Top = 0
@@ -1632,57 +1631,6 @@ object FPrincipal: TFPrincipal
       ParentFont = False
       TabOrder = 0
       StyleElements = []
-    end
-  end
-  object SubTributacao: TSplitView
-    Left = 189
-    Top = 73
-    Width = 0
-    Height = 527
-    Color = 16682343
-    Opened = False
-    OpenedWidth = 200
-    Placement = svpLeft
-    TabOrder = 6
-    object CatTributacao: TCategoryButtons
-      Left = 6
-      Top = -32
-      Width = 207
-      Height = 331
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      ButtonFlow = cbfVertical
-      ButtonHeight = 60
-      ButtonOptions = [boFullSize, boShowCaptions]
-      Categories = <
-        item
-          Color = clNone
-          Collapsed = False
-          Items = <
-            item
-              Caption = 'Par'#226'metros'
-              ImageIndex = 9
-            end
-            item
-              Caption = 'Cadastro NCM/SH'
-              ImageIndex = 8
-            end
-            item
-              Caption = 'Cadastro CFOP'
-              ImageIndex = 8
-            end>
-        end>
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -16
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      HotButtonColor = 16742732
-      Images = ImageList1
-      RegularButtonColor = clNone
-      SelectedButtonColor = clNone
-      TabOrder = 0
     end
   end
   object ImageList1: TImageList

@@ -14,6 +14,8 @@ type
     function Database( aValue : String) : iModelDAOConnection;
     function Password( aValue : String) : iModelDAOConnection;
     function UserName( aValue : String) : iModelDAOConnection;
+    function Server( aValue : String) : iModelDAOConnection;
+    function Port( aValue : String) : iModelDAOConnection;
     function Connected( aValue : Boolean) : iModelDAOConnection;
     function AutoReconnect( aValue : Boolean) : iModelDAOConnection;
     function Connection : TCustomConnection;
