@@ -154,42 +154,39 @@ end;
 
 procedure TModelDAOConnectionQuery.GetTableListFirebird;
 begin
-  FQuery.Open('select rdb$relation_name from rdb$relations where rdb$system_flag = 0 order by rdb$relation_name;');
+  Self
+    .SQLClear
+      .SQL('select rdb$relation_name from rdb$relations where rdb$system_flag = 0 order by rdb$relation_name;')
+    .Open;
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListMSSQL;
 begin
-  FQuery.Open('SELECT TABLE_NAME FROM information_schema.tables order by TABLE_NAME;');
+  Self
+    .SQLClear
+      .SQL('SELECT TABLE_NAME FROM information_schema.tables order by TABLE_NAME;')
+    .Open;
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListOracle;
-var
-  aSQL : TStringList;
 begin
-  aSQL := TStringList.Create;
-  try
-    aSQL.Clear;
-    aSQL.BeginUpdate;
-    aSQL.Add('SELECT');
-    aSQL.Add('    lower(t.owner) || ''.'' || t.table_name as table_name ');
-//    aSQL.Add('    t.tablespace_name');
-//    aSQL.Add('  , t.table_name');
-//    aSQL.Add('  , t.owner');
-    aSQL.Add('from all_tables t');
-    aSQL.Add('where not (t.table_name like ' + QuotedStr('%$%') + ')'); // não listar as tabelas do sistema
-    aSQL.Add('order by');
-    aSQL.Add('    t.table_name');
-    aSQL.EndUpdate;
-
-    FQuery.Open(aSQL.Text);
-  finally
-    aSQL.DisposeOf;
-  end;
+  Self
+    .SQLClear
+    .SQL('SELECT')
+    .SQL('    lower(t.owner) || ''.'' || t.table_name as table_name ')
+    .SQL('from all_tables t')
+    .SQL('where not (t.table_name like ' + QuotedStr('%$%') + ')') // não listar as tabelas do sistema
+    .SQL('order by')
+    .SQL('t.table_name')
+  .Open;
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListSQLite;
 begin
-  FQuery.Open('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name;');
+  Self
+    .SQLClear
+      .SQL('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name;')
+    .Open;
 end;
 
 function TModelDAOConnectionQuery.DataSet: TDataSet;

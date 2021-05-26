@@ -7,6 +7,7 @@ uses
 
   function RemoveAcento( aValue : String) : string;
   function Capitaliza( aValue : String; Captalizar, RemoveCaracter : Boolean) : string;
+  function GerarAssinatura: string;
 
 implementation
 
@@ -64,6 +65,16 @@ begin
       end;
     end;
   Result := aux;
+end;
+
+function GerarAssinatura: string;
+var
+  Uid: TGuid;
+begin
+  if CreateGuid(Uid) = S_OK then
+    Result := GUIDToString(Uid)
+  else
+    raise Exception.Create('Erro Gerar Assinatura!');
 end;
 
 end.
