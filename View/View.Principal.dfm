@@ -1426,10 +1426,6 @@ object FPrincipal: TFPrincipal
       object pgGerador: TTabSheet
         Caption = 'Gerador de Classes'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel11: TPanel
           Left = 0
           Top = 0
@@ -1545,8 +1541,8 @@ object FPrincipal: TFPrincipal
                   Caption = 'Caminho dos Arquivos'
                 end
                 object btGerarClass: TButton
-                  Left = 5
-                  Top = 73
+                  Left = 3
+                  Top = 57
                   Width = 75
                   Height = 25
                   Caption = 'Gerar Class'

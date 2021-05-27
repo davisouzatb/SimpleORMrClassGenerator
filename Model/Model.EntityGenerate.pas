@@ -4,60 +4,47 @@ interface
 
 uses
   System.SysUtils,
-  System.Classes,
   Data.DB,
   Model.Interfaces,
-  Model.Util,
   Model.DAO.Interfaces,
-  Model.DAO.Connection.FireDac;
+  Model.DAO.Connection.FireDac,
+  Model.FileControl,
+  Model.Util;
 
 type
   TModelEntityGenerate = class(TInterfacedObject, iModelEntityGenerate)
       private
         [weak]
+        FParent : iModelGenerator;
+        [weak]
         FConnection : iModelDAOConnection;
-        FDisplay : TProc<string>;
-        FDiretorio : String;
-        FPrefixo : String;
         FTabela : String;
-        FCaptalizar : Boolean;
-        FRemoverCaracter : Boolean;
-        function GetFieldType( aClassName : String) : String;
         function FormataNome( aValue : String) : String;
+        function GetFieldType( aClassName : String) : String;
       public
-        constructor Create;
+        constructor Create( aParent : iModelGenerator);
         Destructor Destroy; override;
-        class function New : iModelEntityGenerate;
+        class function New( aParent : iModelGenerator) : iModelEntityGenerate;
         function Connection( aConnection : iModelDAOConnection) : iModelEntityGenerate;
-        function Captalizar( aValue: Boolean) : iModelEntityGenerate;
-        function RemoverCaracter( aValue: Boolean) : iModelEntityGenerate;
-        function Dispay( aDisplay : TProc<string>) : iModelEntityGenerate;
-        function Diretorio( aValue : String) : iModelEntityGenerate;
-        function Prefixo( aValue : String) : iModelEntityGenerate;
         function Tabela( aValue : String) : iModelEntityGenerate;
-        function Generate: iModelEntityGenerate;
+        function Generate : iModelEntityGenerate;
+        function &End :iModelGenerator;
+
   end;
 
 implementation
 
 { TModelEntityGenerate }
 
-function TModelEntityGenerate.Captalizar(aValue: Boolean): iModelEntityGenerate;
-begin
-  Result := Self;
-  FCaptalizar := aValue;
-end;
-
-function TModelEntityGenerate.Connection(aConnection: iModelDAOConnection): iModelEntityGenerate;
+function TModelEntityGenerate.Connection( aConnection : iModelDAOConnection) : iModelEntityGenerate;
 begin
   Result := Self;
   FConnection := aConnection;
 end;
 
-constructor TModelEntityGenerate.Create;
+constructor TModelEntityGenerate.Create( aParent : iModelGenerator);
 begin
-  FCaptalizar := False;
-  FRemoverCaracter := False;
+  FParent := aParent;
 end;
 
 destructor TModelEntityGenerate.Destroy;
@@ -66,16 +53,9 @@ begin
   inherited;
 end;
 
-function TModelEntityGenerate.Diretorio(aValue: String): iModelEntityGenerate;
+function TModelEntityGenerate.FormataNome(aValue: String): String;
 begin
-  Result := Self;
-  FDiretorio := aValue;
-end;
-
-function TModelEntityGenerate.Dispay(aDisplay: TProc<string>): iModelEntityGenerate;
-begin
-  Result := Self;
-  FDisplay := aDisplay;
+ Result := Capitaliza(RemoveAcento(aValue) , FParent.Params.Captalizar, FParent.Params.RemoverCaracter);
 end;
 
 function TModelEntityGenerate.Generate: iModelEntityGenerate;
@@ -83,97 +63,97 @@ var
   i: Integer;
   campo: string;
   FQuery: iModelDAOConnectionQuery;
-  mUnit: TStringList;
+  mUnit: iModelFileControl;
 begin
   Result := Self;
 
-  mUnit := TStringList.Create;
-  try
-    FQuery := TModelDAOConnectionQuery.New(FConnection);
+  FQuery := TModelDAOConnectionQuery.New(FConnection);
 
-    FQuery
-      .SQLClear
-      .SQL('select * from '+ FTabela)
-    .Open;
+  FQuery
+    .SQLClear
+    .SQL('select * from '+ FTabela)
+  .Open;
 
-    mUnit.Clear;
-    mUnit.Add('unit ' + FPrefixo + '.' + FormataNome(FTabela) + ';');
-    mUnit.Add('');
-    mUnit.Add('interface');
-    mUnit.Add('');
-    mUnit.Add('uses');
-    mUnit.Add('  System.Generics.Collections,');
-    mUnit.Add('  System.Classes,');
-    mUnit.Add('  Rest.Json,');
-    mUnit.Add('  System.JSON,');
-    mUnit.Add('  SimpleAttributes;');
-    mUnit.Add('');
-    mUnit.Add('type');
-    mUnit.Add('  [Tabela(' + QuotedStr(RemoveAcento(FTabela)) + ')]');
-    mUnit.Add('  T' + FormataNome(FTabela) + ' = class');
-    mUnit.Add('  private');
-    for I := 0 to FQuery.DataSet.FieldCount - 1 do
-    begin
-      campo := GetFieldType(FQuery.DataSet.Fields[i].ClassName) + ';';
-      mUnit.Add('    F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo);
-    end;
-    mUnit.Add('');
-    mUnit.Add('  public');
-    mUnit.Add('    constructor Create;');
-    mUnit.Add('    destructor Destroy; override;');
-    mUnit.Add('');
-    mUnit.Add('  published');
-    mUnit.Add('{verificar os atributos do campo de chave primária}');
-    mUnit.Add('{Exemplo: [Campo(' + QuotedStr('NOME_CAMPO') + '), PK, AutoInc] }');
-    for I := 0 to FQuery.DataSet.FieldCount - 1 do
-    begin
-      campo := GetFieldType(FQuery.DataSet.Fields[i].ClassName);
-      if I = 0 then
-        mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + '), PK, AutoInc]')
-      else
-        mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + ')]');
-      mUnit.Add('    property ' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo + ' read F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ' write F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ';');
-    end;
-    mUnit.Add('');
-    mUnit.Add('    function ToJSONObject: TJsonObject;');
-    mUnit.Add('    function ToJsonString: string;');
-    mUnit.Add('');
-    mUnit.Add('  end;');
-    mUnit.Add('');
-    mUnit.Add('implementation');
-    mUnit.Add('');
-    mUnit.Add('constructor T' + FormataNome(FTabela) + '.Create;');
-    mUnit.Add('begin');
-    mUnit.Add('');
-    mUnit.Add('end;');
-    mUnit.Add('');
-    mUnit.Add('destructor T' + FormataNome(FTabela) + '.Destroy;');
-    mUnit.Add('begin');
-    mUnit.Add('');
-    mUnit.Add('  inherited;');
-    mUnit.Add('end;');
-    mUnit.Add('');
-    mUnit.Add('function T' + FormataNome(FTabela) + '.ToJSONObject: TJsonObject;');
-    mUnit.Add('begin');
-    mUnit.Add('  Result := TJson.ObjectToJsonObject(Self);');
-    mUnit.Add('end;');
-    mUnit.Add('');
-    mUnit.Add('function T' + FormataNome(FTabela) + '.ToJsonString: string;');
-    mUnit.Add('begin');
-    mUnit.Add('  result := TJson.ObjectToJsonString(self);');
-    mUnit.Add('end;');
-    mUnit.Add('');
-    mUnit.Add('end.');
+  mUnit := TModelFileControl.New;
+  mUnit
+    .Clear
+    .Add('unit ' +  FParent.Params.Prefixo + '.' + FormataNome(FTabela) + ';')
+    .Add('')
+    .Add('interface')
+    .Add('')
+    .Add('uses')
+    .Add('  System.Generics.Collections,')
+    .Add('  System.Classes,')
+    .Add('  Rest.Json,')
+    .Add('  System.JSON,')
+    .Add('  SimpleAttributes;')
+    .Add('')
+    .Add('type')
+    .Add('  [Tabela(' + QuotedStr(RemoveAcento(FTabela)) + ')]')
+    .Add('  T' + FormataNome(FTabela) + ' = class')
+    .Add('  private');
 
-    if not DirectoryExists(FDiretorio) then
-      CreateDir(FDiretorio);
-    mUnit.SaveToFile(FDiretorio+'\'+FPrefixo+'.'+FormataNome(FTabela)+'.pas');
-
-    if Assigned(FDisplay) then
-     FDisplay(mUnit.Text);
-  finally
-    mUnit.DisposeOf
+  for I := 0 to FQuery.DataSet.FieldCount - 1 do
+  begin
+    campo := GetFieldType(FQuery.DataSet.Fields[i].ClassName) + ';';
+    mUnit.Add('    F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo);
   end;
+
+  mUnit
+    .Add('')
+    .Add('  public')
+    .Add('    constructor Create;')
+    .Add('    destructor Destroy; override;')
+    .Add('')
+    .Add('  published')
+    .Add('{verificar os atributos do campo de chave primária}')
+    .Add('{Exemplo: [Campo(' + QuotedStr('NOME_CAMPO') + '), PK, AutoInc] }');
+
+  for I := 0 to FQuery.DataSet.FieldCount - 1 do
+  begin
+    campo := GetFieldType(FQuery.DataSet.Fields[i].ClassName);
+    if I = 0 then
+      mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + '), PK, AutoInc]')
+    else
+      mUnit.Add('    [Campo(' + quotedstr(RemoveAcento(FQuery.DataSet.Fields[i].FieldName)) + ')]');
+    mUnit.Add('    property ' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ': ' + campo + ' read F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ' write F' + FormataNome(FQuery.DataSet.Fields[i].FieldName) + ';');
+  end;
+
+  mUnit
+    .Add('')
+    .Add('    function ToJSONObject: TJsonObject;')
+    .Add('    function ToJsonString: string;')
+    .Add('')
+    .Add('  end;')
+    .Add('')
+    .Add('implementation')
+    .Add('')
+    .Add('constructor T' + FormataNome(FTabela) + '.Create;')
+    .Add('begin')
+    .Add('')
+    .Add('end;')
+    .Add('')
+    .Add('destructor T' + FormataNome(FTabela) + '.Destroy;')
+    .Add('begin')
+    .Add('')
+    .Add('  inherited;')
+    .Add('end;')
+    .Add('')
+    .Add('function T' + FormataNome(FTabela) + '.ToJSONObject: TJsonObject;')
+    .Add('begin')
+    .Add('  Result := TJson.ObjectToJsonObject(Self);')
+    .Add('end;')
+    .Add('')
+    .Add('function T' + FormataNome(FTabela) + '.ToJsonString: string;')
+    .Add('begin')
+    .Add('  result := TJson.ObjectToJsonString(self);')
+    .Add('end;')
+    .Add('')
+    .Add('end.')
+
+    .SaveToFile(FParent.Params.Diretorio+'\'+FParent.Params.Prefixo+'.'+FormataNome(FTabela)+'.pas');
+
+   FParent.Params.Display(mUnit.Text);
 end;
 
 function TModelEntityGenerate.GetFieldType(aClassName: String): String;
@@ -216,32 +196,20 @@ begin
     Result := _string+ '   {'+aClassName+'}';
 end;
 
-function TModelEntityGenerate.FormataNome(aValue: String): String;
+class function TModelEntityGenerate.New( aParent : iModelGenerator) : iModelEntityGenerate;
 begin
-  Result := Capitaliza(RemoveAcento(aValue) , FCaptalizar, FRemoverCaracter);
+  Result := Self.Create( aParent);
 end;
 
-class function TModelEntityGenerate.New: iModelEntityGenerate;
-begin
-  Result := Self.Create;
-end;
-
-function TModelEntityGenerate.Prefixo(aValue: String): iModelEntityGenerate;
-begin
-  Result := Self;
-  FPrefixo := aValue;
-end;
-
-function TModelEntityGenerate.RemoverCaracter(aValue: Boolean): iModelEntityGenerate;
-begin
-  Result := Self;
-  FRemoverCaracter := aValue;
-end;
-
-function TModelEntityGenerate.Tabela(aValue: String): iModelEntityGenerate;
+function TModelEntityGenerate.Tabela( aValue : String) : iModelEntityGenerate;
 begin
   Result := Self;
   FTabela := aValue;
+end;
+
+function TModelEntityGenerate.&End: iModelGenerator;
+begin
+  Result := FParent;
 end;
 
 end.
