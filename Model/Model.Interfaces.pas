@@ -4,17 +4,19 @@ interface
 
 uses
   System.SysUtils,
+  System.Classes,
   Model.DAO.Interfaces;
 
 type
    iModelEntityGenerate = interface;
    iModelGeneratorParams = interface;
+   iModelModelGenerate = interface;
 
   iModelGenerator = interface
     ['{D94A9F44-0E64-411A-940B-E1F2B29DEE08}']
     function Params : iModelGeneratorParams;
     function EntityGenerate: iModelEntityGenerate;
-    function ModelGenerate: iModelGenerator;
+    function ModelGenerate: iModelModelGenerate;
   end;
 
   iModelGeneratorParams = interface
@@ -24,11 +26,13 @@ type
     function RemoverCaracter( aValue: Boolean) : iModelGeneratorParams; overload;
     function RemoverCaracter: Boolean; overload;
     function Display( aDisplay : TProc<string>) : iModelGeneratorParams; overload;
-    procedure Display(aValue : String); overload;
+    function Display(aValue : String): iModelGeneratorParams; overload;
     function Diretorio( aValue : String) : iModelGeneratorParams; overload;
     function Diretorio : String; overload;
     function Prefixo( aValue : String) : iModelGeneratorParams; overload;
     function Prefixo: String; overload;
+    function Projeto( aValue : String) : iModelGeneratorParams; overload;
+    function Projeto: String; overload;
     function &End :iModelGenerator;
   end;
 
@@ -37,6 +41,13 @@ type
     function Connection( aConnection : iModelDAOConnection) : iModelEntityGenerate;
     function Tabela( aValue : String) : iModelEntityGenerate;
     function Generate : iModelEntityGenerate;
+    function &End :iModelGenerator;
+  end;
+
+  iModelModelGenerate = interface
+    ['{0416D202-BFCE-499D-9CFD-683FF7E23116}']
+    function Tabelas(aValue : TStrings) : iModelModelGenerate;
+    function Generate : iModelModelGenerate;
     function &End :iModelGenerator;
   end;
 

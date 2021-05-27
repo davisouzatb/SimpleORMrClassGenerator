@@ -72,7 +72,7 @@ var
   Uid: TGuid;
 begin
   if CreateGuid(Uid) = S_OK then
-    Result := GUIDToString(Uid)
+    Result := QuotedStr(GUIDToString(Uid))
   else
     raise Exception.Create('Erro Gerar Assinatura!');
 end;

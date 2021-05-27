@@ -4,7 +4,7 @@ object FPrincipal: TFPrincipal
   BorderStyle = bsNone
   Caption = 'FPrincipal'
   ClientHeight = 600
-  ClientWidth = 800
+  ClientWidth = 1004
   Color = clBtnHighlight
   TransparentColor = True
   TransparentColorValue = clFuchsia
@@ -18,22 +18,23 @@ object FPrincipal: TFPrincipal
   OnCreate = FormCreate
   OnResize = FormResize
   DesignSize = (
-    800
+    1004
     600)
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 800
+    Width = 1004
     Height = 73
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 800
     object Image1: TImage
       Left = 225
       Top = 0
-      Width = 575
+      Width = 779
       Height = 73
       Align = alClient
       Picture.Data = {
@@ -1019,21 +1020,20 @@ object FPrincipal: TFPrincipal
   object Menu: TSplitView
     Left = 0
     Top = 73
-    Width = 57
+    Width = 189
     Height = 527
     CloseStyle = svcCompact
     CompactWidth = 57
-    Opened = False
     OpenedWidth = 189
     Placement = svpLeft
     TabOrder = 1
     DesignSize = (
-      57
+      189
       527)
     object Image6: TImage
       Left = 0
       Top = 0
-      Width = 57
+      Width = 189
       Height = 527
       Align = alClient
       Picture.Data = {
@@ -1174,7 +1174,7 @@ object FPrincipal: TFPrincipal
       ExplicitHeight = 623
     end
     object catPrincipal: TCategoryButtons
-      Left = -22
+      Left = -30
       Top = -7
       Width = 219
       Height = 633
@@ -1198,6 +1198,11 @@ object FPrincipal: TFPrincipal
               Caption = 'Gerador Classe'
               ImageIndex = 2
               OnClick = Action2Execute
+            end
+            item
+              Caption = 'Routers Horse'
+              ImageIndex = 0
+              OnClick = catPrincipalCategories0Items2Click
             end>
         end>
       Color = 5395026
@@ -1249,36 +1254,41 @@ object FPrincipal: TFPrincipal
     end
   end
   object pnEmbeded: TPanel
-    Left = 57
+    Left = 189
     Top = 73
-    Width = 743
+    Width = 815
     Height = 527
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitLeft = 57
+    ExplicitWidth = 743
     object tabGeral: TPageControl
       Left = 0
       Top = 0
-      Width = 743
+      Width = 815
       Height = 527
-      ActivePage = pgConexao
+      ActivePage = pgGerador
       Align = alClient
       MultiLine = True
       TabOrder = 0
+      ExplicitWidth = 611
       object pgConexao: TTabSheet
         Caption = 'Conex'#227'o'
+        ExplicitWidth = 735
         object Panel9: TPanel
           Left = 0
           Top = 0
-          Width = 735
+          Width = 807
           Height = 499
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 735
           object Panel10: TPanel
             Left = 0
             Top = 81
-            Width = 735
+            Width = 807
             Height = 418
             Align = alClient
             BevelEdges = [beBottom]
@@ -1290,6 +1300,7 @@ object FPrincipal: TFPrincipal
             Font.Style = []
             ParentFont = False
             TabOrder = 1
+            ExplicitWidth = 735
             object Label4: TLabel
               Left = 24
               Top = 59
@@ -1331,7 +1342,7 @@ object FPrincipal: TFPrincipal
               Width = 393
               Height = 23
               TabOrder = 0
-              Text = 'D:\Programas\DSist\Database\Dsist.FDB'
+              Text = 'highsoft'
             end
             object edtUsuario: TEdit
               Left = 24
@@ -1339,7 +1350,7 @@ object FPrincipal: TFPrincipal
               Width = 121
               Height = 23
               TabOrder = 1
-              Text = 'sysdba'
+              Text = 'hs'
             end
             object edtSenha: TEdit
               Left = 24
@@ -1347,7 +1358,7 @@ object FPrincipal: TFPrincipal
               Width = 121
               Height = 23
               TabOrder = 2
-              Text = 'masterkey'
+              Text = '010896'
             end
             object btnConectar: TButton
               Left = 24
@@ -1378,12 +1389,13 @@ object FPrincipal: TFPrincipal
           object Panel4: TPanel
             Left = 0
             Top = 40
-            Width = 735
+            Width = 807
             Height = 41
             Align = alTop
             BevelEdges = [beBottom]
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitWidth = 735
             object cbDriver: TComboBox
               Left = 24
               Top = 6
@@ -1406,7 +1418,7 @@ object FPrincipal: TFPrincipal
           object Panel2: TPanel
             Left = 0
             Top = 0
-            Width = 735
+            Width = 807
             Height = 40
             Align = alTop
             BevelOuter = bvNone
@@ -1420,24 +1432,26 @@ object FPrincipal: TFPrincipal
             ParentBackground = False
             ParentFont = False
             TabOrder = 2
+            ExplicitWidth = 735
           end
         end
       end
       object pgGerador: TTabSheet
-        Caption = 'Gerador de Classes'
+        Caption = 'Gerador'
         ImageIndex = 1
+        ExplicitWidth = 735
         object Panel11: TPanel
           Left = 0
           Top = 0
-          Width = 735
+          Width = 807
           Height = 499
           Align = alClient
-          Caption = 'Panel11'
           TabOrder = 0
+          ExplicitWidth = 735
           object Panel3: TPanel
             Left = 1
             Top = 1
-            Width = 733
+            Width = 805
             Height = 40
             Align = alTop
             BevelOuter = bvNone
@@ -1451,19 +1465,21 @@ object FPrincipal: TFPrincipal
             ParentBackground = False
             ParentFont = False
             TabOrder = 0
+            ExplicitWidth = 733
           end
           object pnContent: TPanel
             Left = 1
             Top = 41
-            Width = 733
+            Width = 805
             Height = 457
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 733
             object Panel6: TPanel
               Left = 0
               Top = 0
-              Width = 241
+              Width = 271
               Height = 457
               Align = alLeft
               BevelOuter = bvNone
@@ -1471,9 +1487,9 @@ object FPrincipal: TFPrincipal
               object chkListaTabelas: TCheckListBox
                 AlignWithMargins = True
                 Left = 0
-                Top = 57
-                Width = 241
-                Height = 400
+                Top = 75
+                Width = 271
+                Height = 382
                 Margins.Left = 0
                 Margins.Top = 0
                 Margins.Right = 0
@@ -1481,120 +1497,176 @@ object FPrincipal: TFPrincipal
                 Align = alClient
                 ItemHeight = 13
                 TabOrder = 1
+                ExplicitTop = 57
+                ExplicitWidth = 241
+                ExplicitHeight = 400
               end
               object Panel7: TPanel
                 Left = 0
                 Top = 0
-                Width = 241
-                Height = 57
+                Width = 271
+                Height = 75
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
+                ExplicitWidth = 241
+                object Label9: TLabel
+                  Left = 1
+                  Top = 6
+                  Width = 116
+                  Height = 13
+                  Caption = 'Caminho dos Arquivos'
+                end
                 object btMarcar: TButton
-                  Left = 16
-                  Top = 16
-                  Width = 97
+                  Left = 0
+                  Top = 47
+                  Width = 120
                   Height = 25
                   Caption = 'Marcar Todas'
                   TabOrder = 0
                   OnClick = btMarcarClick
                 end
                 object btDesmarcar: TButton
-                  Left = 128
-                  Top = 16
-                  Width = 99
+                  Left = 145
+                  Top = 47
+                  Width = 120
                   Height = 25
                   Caption = 'Desmarcar Todas'
                   TabOrder = 1
                   OnClick = btDesmarcarClick
                 end
+                object edtCaminhoArquivos: TEdit
+                  Left = 1
+                  Top = 23
+                  Width = 264
+                  Height = 21
+                  TabOrder = 2
+                  Text = 'D:\teste'
+                end
               end
             end
             object Panel5: TPanel
-              Left = 241
+              Left = 271
               Top = 0
-              Width = 492
+              Width = 534
               Height = 457
               Align = alClient
-              BevelOuter = bvNone
               TabOrder = 1
-              object Panel8: TPanel
-                Left = 0
-                Top = 0
-                Width = 492
-                Height = 104
+              ExplicitTop = 6
+              object pgGeradorClasses: TPageControl
+                Left = 1
+                Top = 1
+                Width = 532
+                Height = 96
+                ActivePage = tbSimpleORM
                 Align = alTop
-                BevelOuter = bvNone
                 TabOrder = 0
-                object Label8: TLabel
-                  Left = 101
-                  Top = 59
-                  Width = 89
-                  Height = 13
-                  Caption = 'Prefixo Entidades'
+                object tbSimpleORM: TTabSheet
+                  Caption = 'SimpleORM'
+                  object Panel12: TPanel
+                    Left = 0
+                    Top = 0
+                    Width = 524
+                    Height = 68
+                    Align = alClient
+                    BevelOuter = bvNone
+                    TabOrder = 0
+                    object Label8: TLabel
+                      Left = 269
+                      Top = 11
+                      Width = 89
+                      Height = 13
+                      Caption = 'Prefixo Entidades'
+                    end
+                    object Label10: TLabel
+                      Left = 141
+                      Top = 11
+                      Width = 75
+                      Height = 13
+                      Caption = 'Prefixo Projeto'
+                    end
+                    object btGerarClass: TButton
+                      Left = 3
+                      Top = 9
+                      Width = 134
+                      Height = 25
+                      Caption = 'Gerar Class Entity'
+                      TabOrder = 0
+                      OnClick = btGerarClassClick
+                    end
+                    object edtPrefixoEntidades: TEdit
+                      Left = 269
+                      Top = 29
+                      Width = 121
+                      Height = 21
+                      TabOrder = 1
+                      Text = 'Model.Entity'
+                    end
+                    object ckCapitalizar: TCheckBox
+                      Left = 398
+                      Top = 13
+                      Width = 113
+                      Height = 17
+                      Caption = 'Capitalizar Nomes'
+                      Checked = True
+                      State = cbChecked
+                      TabOrder = 2
+                    end
+                    object ckRemoverCaracter: TCheckBox
+                      Left = 398
+                      Top = 33
+                      Width = 113
+                      Height = 17
+                      Caption = 'Remover Caracter'
+                      Checked = True
+                      State = cbChecked
+                      TabOrder = 3
+                    end
+                    object btGerarModel: TButton
+                      Left = 3
+                      Top = 34
+                      Width = 134
+                      Height = 25
+                      Caption = 'Gerar Model/Controller'
+                      TabOrder = 4
+                      OnClick = btGerarModelClick
+                    end
+                    object edtPrefixoProjeto: TEdit
+                      Left = 141
+                      Top = 29
+                      Width = 121
+                      Height = 21
+                      TabOrder = 5
+                      Text = 'ServerHorse'
+                    end
+                  end
                 end
-                object Label9: TLabel
-                  Left = 5
-                  Top = 12
-                  Width = 116
-                  Height = 13
-                  Caption = 'Caminho dos Arquivos'
-                end
-                object btGerarClass: TButton
-                  Left = 3
-                  Top = 57
-                  Width = 75
-                  Height = 25
-                  Caption = 'Gerar Class'
-                  TabOrder = 1
-                  OnClick = btGerarClassClick
-                end
-                object edtPrefixoEntidades: TEdit
-                  Left = 101
-                  Top = 77
-                  Width = 121
-                  Height = 21
-                  TabOrder = 2
-                  Text = 'Model.Entity'
-                end
-                object edtCaminhoArquivos: TEdit
-                  Left = 5
-                  Top = 30
-                  Width = 345
-                  Height = 21
-                  TabOrder = 0
-                  Text = 'D:\teste'
-                end
-                object ckCapitalizar: TCheckBox
-                  Left = 232
-                  Top = 61
-                  Width = 113
-                  Height = 17
-                  Caption = 'Capitalizar Nomes'
-                  Checked = True
-                  State = cbChecked
-                  TabOrder = 3
-                end
-                object ckRemoverCaracter: TCheckBox
-                  Left = 232
-                  Top = 81
-                  Width = 113
-                  Height = 17
-                  Caption = 'Remover Caracter'
-                  Checked = True
-                  State = cbChecked
-                  TabOrder = 4
+                object tbHorse: TTabSheet
+                  Caption = 'Horse'
+                  ImageIndex = 1
+                  object btRoutersHorse: TButton
+                    Left = 3
+                    Top = 9
+                    Width = 134
+                    Height = 25
+                    Caption = 'Routers Horse'
+                    TabOrder = 0
+                  end
                 end
               end
               object mResult: TMemo
-                Left = 0
-                Top = 104
-                Width = 492
-                Height = 353
+                Left = 1
+                Top = 97
+                Width = 532
+                Height = 359
                 Align = alClient
                 BevelInner = bvNone
                 BevelOuter = bvNone
                 TabOrder = 1
+                ExplicitLeft = 0
+                ExplicitTop = 68
+                ExplicitWidth = 524
+                ExplicitHeight = 361
               end
             end
           end
@@ -1603,7 +1675,7 @@ object FPrincipal: TFPrincipal
     end
   end
   object mListaFormAberta: TSplitView
-    Left = 800
+    Left = 1004
     Top = 73
     Width = 0
     Height = 527
@@ -1613,6 +1685,7 @@ object FPrincipal: TFPrincipal
     OpenedWidth = 200
     Placement = svpRight
     TabOrder = 3
+    ExplicitLeft = 800
     object ListForms: TListBox
       Left = 0
       Top = 0

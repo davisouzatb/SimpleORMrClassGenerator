@@ -10,7 +10,8 @@ uses
   Model.Util in 'Model\Model.Util.pas',
   Model.FileControl in 'Model\Model.FileControl.pas',
   Model.EntityGenerate in 'Model\Model.EntityGenerate.pas',
-  Model.Generator.Params in 'Model\Model.Generator.Params.pas';
+  Model.Generator.Params in 'Model\Model.Generator.Params.pas',
+  Model.ModelGenerate in 'Model\Model.ModelGenerate.pas';
 
 {$R *.res}
 

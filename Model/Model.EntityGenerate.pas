@@ -3,6 +3,7 @@ unit Model.EntityGenerate;
 interface
 
 uses
+  System.StrUtils,
   System.SysUtils,
   Data.DB,
   Model.Interfaces,
@@ -19,6 +20,7 @@ type
         [weak]
         FConnection : iModelDAOConnection;
         FTabela : String;
+        function PrefixoProjeto : String;
         function FormataNome( aValue : String) : String;
         function GetFieldType( aClassName : String) : String;
       public
@@ -77,7 +79,7 @@ begin
   mUnit := TModelFileControl.New;
   mUnit
     .Clear
-    .Add('unit ' +  FParent.Params.Prefixo + '.' + FormataNome(FTabela) + ';')
+    .Add('unit ' + PrefixoProjeto + FParent.Params.Prefixo + '.' + FormataNome(FTabela) + ';')
     .Add('')
     .Add('interface')
     .Add('')
@@ -151,7 +153,7 @@ begin
     .Add('')
     .Add('end.')
 
-    .SaveToFile(FParent.Params.Diretorio+'\'+FParent.Params.Prefixo+'.'+FormataNome(FTabela)+'.pas');
+    .SaveToFile(FParent.Params.Diretorio+'\Model\Entity\'+PrefixoProjeto +  FParent.Params.Prefixo+'.'+FormataNome(FTabela)+'.pas');
 
    FParent.Params.Display(mUnit.Text);
 end;
@@ -199,6 +201,13 @@ end;
 class function TModelEntityGenerate.New( aParent : iModelGenerator) : iModelEntityGenerate;
 begin
   Result := Self.Create( aParent);
+end;
+
+function TModelEntityGenerate.PrefixoProjeto: String;
+begin
+  Result := ifThen(FParent.Params.Projeto.Trim.IsEmpty,
+                   '',
+                   FParent.Params.Projeto.Trim+'.');
 end;
 
 function TModelEntityGenerate.Tabela( aValue : String) : iModelEntityGenerate;

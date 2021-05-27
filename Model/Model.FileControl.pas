@@ -55,9 +55,8 @@ end;
 function TModelFileControl.SaveToFile(aValue: String): iModelFileControl;
 begin
   Result := Self;
-  if not DirectoryExists(ExtractFilePath(aValue)) then
-    CreateDir(ExtractFilePath(aValue));
-  FStringList.SaveToFile(aValue);
+  if ForceDirectories(ExtractFilePath(aValue)) then
+    FStringList.SaveToFile(aValue);
 end;
 
 function TModelFileControl.Text: String;

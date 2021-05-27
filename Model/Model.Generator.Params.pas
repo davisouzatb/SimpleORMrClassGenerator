@@ -14,6 +14,7 @@ type
         FDisplay : TProc<string>;
         FDiretorio : String;
         FPrefixo : String;
+        FProjeto : String;
         FCaptalizar : Boolean;
         FRemoverCaracter : Boolean;
       public
@@ -25,11 +26,13 @@ type
         function RemoverCaracter( aValue: Boolean) : iModelGeneratorParams; overload;
         function RemoverCaracter: Boolean; overload;
         function Display( aDisplay : TProc<string>) : iModelGeneratorParams; overload;
-        procedure Display(aValue : String); overload;
+        function Display(aValue : String): iModelGeneratorParams; overload;
         function Diretorio( aValue : String) : iModelGeneratorParams; overload;
         function Diretorio : String; overload;
         function Prefixo( aValue : String) : iModelGeneratorParams; overload;
         function Prefixo: String; overload;
+        function Projeto( aValue : String) : iModelGeneratorParams; overload;
+        function Projeto: String; overload;
         function &End :iModelGenerator;
   end;
 
@@ -57,6 +60,7 @@ constructor TModelGeneratorParams.Create( aParent : iModelGenerator);
 begin
   FCaptalizar := False;
   FRemoverCaracter := False;
+  FProjeto := '';
   FParent := aParent;
 end;
 
@@ -77,8 +81,9 @@ begin
   Result := FDiretorio;
 end;
 
-procedure TModelGeneratorParams.Display(aValue: String);
+function TModelGeneratorParams.Display(aValue : String): iModelGeneratorParams;
 begin
+  Result := Self;
   FDisplay(aValue);
 end;
 
@@ -96,6 +101,17 @@ end;
 function TModelGeneratorParams.Prefixo: String;
 begin
   Result := FPrefixo;
+end;
+
+function TModelGeneratorParams.Projeto: String;
+begin
+  Result := FProjeto;
+end;
+
+function TModelGeneratorParams.Projeto(aValue: String): iModelGeneratorParams;
+begin
+  Result := Self;
+  FProjeto := aValue;
 end;
 
 function TModelGeneratorParams.Prefixo(aValue: String): iModelGeneratorParams;

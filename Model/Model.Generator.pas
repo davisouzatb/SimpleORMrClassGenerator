@@ -5,7 +5,7 @@ interface
 uses
   Model.Interfaces,
   Model.Generator.Params,
-  Model.EntityGenerate;
+  Model.EntityGenerate, Model.ModelGenerate;
 
 type
   TModelGenerator = class(TInterfacedObject, iModelGenerator)
@@ -17,7 +17,7 @@ type
         class function New : iModelGenerator;
         function Params : iModelGeneratorParams;
         function EntityGenerate: iModelEntityGenerate;
-        function ModelGenerate: iModelGenerator;
+        function ModelGenerate: iModelModelGenerate;
   end;
 
 implementation
@@ -41,9 +41,9 @@ begin
   Result := TModelEntityGenerate.New(Self);
 end;
 
-function TModelGenerator.ModelGenerate: iModelGenerator;
+function TModelGenerator.ModelGenerate: iModelModelGenerate;
 begin
-//
+  Result := TModelModelGenerate.New(Self);
 end;
 
 class function TModelGenerator.New: iModelGenerator;

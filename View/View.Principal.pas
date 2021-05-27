@@ -66,22 +66,29 @@ type
     Panel7: TPanel;
     btMarcar: TButton;
     btDesmarcar: TButton;
-    Panel5: TPanel;
-    Panel8: TPanel;
-    btGerarClass: TButton;
-    edtPrefixoEntidades: TEdit;
-    edtCaminhoArquivos: TEdit;
-    mResult: TMemo;
     edtPorta: TEdit;
     Label4: TLabel;
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label9: TLabel;
+    edtCaminhoArquivos: TEdit;
+    Panel5: TPanel;
+    pgGeradorClasses: TPageControl;
+    tbSimpleORM: TTabSheet;
+    mResult: TMemo;
+    Panel12: TPanel;
+    Label8: TLabel;
+    Label10: TLabel;
+    btGerarClass: TButton;
+    edtPrefixoEntidades: TEdit;
     ckCapitalizar: TCheckBox;
     ckRemoverCaracter: TCheckBox;
-    Label8: TLabel;
-    Label9: TLabel;
+    btGerarModel: TButton;
+    edtPrefixoProjeto: TEdit;
+    tbHorse: TTabSheet;
+    btRoutersHorse: TButton;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -96,6 +103,7 @@ type
     procedure btGerarClassClick(Sender: TObject);
     procedure cbDriverChange(Sender: TObject);
     procedure btGerarModelClick(Sender: TObject);
+    procedure catPrincipalCategories0Items2Click(Sender: TObject);
   private
     FConnection : iModelDAOConnection;
     { Private declarations }
@@ -155,8 +163,40 @@ end;
 procedure TFPrincipal.btGerarModelClick(Sender: TObject);
 var
   j : Integer;
+  vTabelas : TStringList;
 begin
-//
+  if not FConnection.Connection.Connected then
+  begin
+    ShowMessage('Base de dados não conectada');
+    Abort;
+  end;
+
+  vTabelas := TStringList.Create;
+  try
+    for j := 0 to chkListaTabelas.Count -1 do
+    begin
+      Application.ProcessMessages;
+      if chkListaTabelas.Checked[j] then
+        vTabelas.Add(chkListaTabelas.Items[j].Trim);
+    end;
+
+    TModelGenerator.New
+      .Params
+        .Diretorio(edtCaminhoArquivos.Text)
+        .Projeto(edtPrefixoProjeto.Text)
+        .Prefixo(edtPrefixoEntidades.Text)
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
+        .Display(Notify)
+      .&End
+      .ModelGenerate
+        .Tabelas(vTabelas)
+        .Generate
+      .&End;
+  finally
+    vTabelas.Free;
+  end;
+  ShowMessage('Concluído');
 end;
 
 procedure TFPrincipal.btMarcarClick(Sender: TObject);
@@ -196,6 +236,7 @@ begin
       TModelGenerator.New
         .Params
           .Diretorio(edtCaminhoArquivos.Text)
+          .Projeto(edtPrefixoProjeto.Text)
           .Prefixo(edtPrefixoEntidades.Text)
           .Captalizar(ckCapitalizar.Checked)
           .RemoverCaracter(ckRemoverCaracter.Checked)
@@ -287,12 +328,22 @@ end;
 procedure TFPrincipal.Action2Execute(Sender: TObject);
 begin
   HabilitaTabs(pgGerador);
+  tbSimpleORM.TabVisible := True;
+  tbHorse.TabVisible := False;
   OnResize(nil);
 end;
 
 procedure TFPrincipal.catPrincipalCategories0Items0Click(Sender: TObject);
 begin
   HabilitaTabs(pgConexao);
+  OnResize(nil);
+end;
+
+procedure TFPrincipal.catPrincipalCategories0Items2Click(Sender: TObject);
+begin
+  HabilitaTabs(pgGerador);
+  tbSimpleORM.TabVisible := False;
+  tbHorse.TabVisible := True;
   OnResize(nil);
 end;
 
