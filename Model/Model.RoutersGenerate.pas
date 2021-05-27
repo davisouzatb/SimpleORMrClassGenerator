@@ -125,7 +125,7 @@ begin
       .Add('      .&End')
       .Add('    .Find;')
       .Add(' ')
-      .Add('  Res.Status(500).Send<TJsonArray>(iController.This.DataSetAsJsonArray);')
+      .Add('  Res.Status(200).Send<TJsonArray>(iController.This.DataSetAsJsonArray);')
       .Add('end;')
       .Add('')
       .Add('procedure Insert(Req: THorseRequest; Res: THorseResponse; Next: TProc);')
