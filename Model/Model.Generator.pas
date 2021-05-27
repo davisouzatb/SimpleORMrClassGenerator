@@ -5,7 +5,9 @@ interface
 uses
   Model.Interfaces,
   Model.Generator.Params,
-  Model.EntityGenerate, Model.ModelGenerate;
+  Model.EntityGenerate,
+  Model.ModelGenerate,
+  Model.RoutersGenerate;
 
 type
   TModelGenerator = class(TInterfacedObject, iModelGenerator)
@@ -18,6 +20,7 @@ type
         function Params : iModelGeneratorParams;
         function EntityGenerate: iModelEntityGenerate;
         function ModelGenerate: iModelModelGenerate;
+        function RoutersGenerate: iModelRoutersGenerate;
   end;
 
 implementation
@@ -54,6 +57,11 @@ end;
 function TModelGenerator.Params: iModelGeneratorParams;
 begin
   Result := FParams;
+end;
+
+function TModelGenerator.RoutersGenerate: iModelRoutersGenerate;
+begin
+  Result := TModelRoutersGenerate.New(Self);
 end;
 
 end.

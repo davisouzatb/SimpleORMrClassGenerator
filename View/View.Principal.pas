@@ -89,6 +89,11 @@ type
     edtPrefixoProjeto: TEdit;
     tbHorse: TTabSheet;
     btRoutersHorse: TButton;
+    ckRoutersGetAll: TCheckBox;
+    ckRoutersGetID: TCheckBox;
+    ckRoutersInsert: TCheckBox;
+    ckRoutersUpdate: TCheckBox;
+    ckRoutersDelete: TCheckBox;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -100,10 +105,11 @@ type
     procedure GetTableList;
     procedure btMarcarClick(Sender: TObject);
     procedure btDesmarcarClick(Sender: TObject);
-    procedure btGerarClassClick(Sender: TObject);
     procedure cbDriverChange(Sender: TObject);
-    procedure btGerarModelClick(Sender: TObject);
     procedure catPrincipalCategories0Items2Click(Sender: TObject);
+    procedure btGerarClassClick(Sender: TObject);
+    procedure btGerarModelClick(Sender: TObject);
+    procedure btRoutersHorseClick(Sender: TObject);
   private
     FConnection : iModelDAOConnection;
     { Private declarations }
@@ -160,6 +166,46 @@ begin
   end;
 end;
 
+procedure TFPrincipal.btRoutersHorseClick(Sender: TObject);
+var
+  j : Integer;
+  vTabelas : TStringList;
+begin
+  if not FConnection.Connection.Connected then
+  begin
+    ShowMessage('Base de dados não conectada');
+    Abort;
+  end;
+  mResult.Lines.Clear;
+  vTabelas := TStringList.Create;
+  try
+    for j := 0 to chkListaTabelas.Count -1 do
+    begin
+      Application.ProcessMessages;
+      if chkListaTabelas.Checked[j] then
+        vTabelas.Add(chkListaTabelas.Items[j].Trim);
+    end;
+
+    TModelGenerator.New
+      .Params
+        .Diretorio(edtCaminhoArquivos.Text)
+        .Projeto(edtPrefixoProjeto.Text)
+        .Prefixo(edtPrefixoEntidades.Text)
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
+        .Display(Notify)
+      .&End
+      .RoutersGenerate
+        .Connection(FConnection)
+        .Tabelas(vTabelas)
+        .Generate
+      .&End;
+  finally
+    vTabelas.Free;
+  end;
+  ShowMessage('Concluído');
+end;
+
 procedure TFPrincipal.btGerarModelClick(Sender: TObject);
 var
   j : Integer;
@@ -170,7 +216,7 @@ begin
     ShowMessage('Base de dados não conectada');
     Abort;
   end;
-
+  mResult.Lines.Clear;
   vTabelas := TStringList.Create;
   try
     for j := 0 to chkListaTabelas.Count -1 do
@@ -228,7 +274,7 @@ begin
     ShowMessage('Base de dados não conectada');
     Abort;
   end;
-
+  mResult.Lines.Clear;
   for j := 0 to chkListaTabelas.Count -1 do
   begin
     Application.ProcessMessages;
@@ -327,9 +373,8 @@ end;
 
 procedure TFPrincipal.Action2Execute(Sender: TObject);
 begin
+  pgGeradorClasses.ActivePageIndex := 0;
   HabilitaTabs(pgGerador);
-  tbSimpleORM.TabVisible := True;
-  tbHorse.TabVisible := False;
   OnResize(nil);
 end;
 
@@ -341,9 +386,8 @@ end;
 
 procedure TFPrincipal.catPrincipalCategories0Items2Click(Sender: TObject);
 begin
+  pgGeradorClasses.ActivePageIndex := 1;
   HabilitaTabs(pgGerador);
-  tbSimpleORM.TabVisible := False;
-  tbHorse.TabVisible := True;
   OnResize(nil);
 end;
 

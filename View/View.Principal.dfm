@@ -30,7 +30,6 @@ object FPrincipal: TFPrincipal
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 800
     object Image1: TImage
       Left = 225
       Top = 0
@@ -1261,21 +1260,17 @@ object FPrincipal: TFPrincipal
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 57
-    ExplicitWidth = 743
     object tabGeral: TPageControl
       Left = 0
       Top = 0
       Width = 815
       Height = 527
-      ActivePage = pgGerador
+      ActivePage = pgConexao
       Align = alClient
       MultiLine = True
       TabOrder = 0
-      ExplicitWidth = 611
       object pgConexao: TTabSheet
         Caption = 'Conex'#227'o'
-        ExplicitWidth = 735
         object Panel9: TPanel
           Left = 0
           Top = 0
@@ -1284,7 +1279,6 @@ object FPrincipal: TFPrincipal
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 735
           object Panel10: TPanel
             Left = 0
             Top = 81
@@ -1300,7 +1294,6 @@ object FPrincipal: TFPrincipal
             Font.Style = []
             ParentFont = False
             TabOrder = 1
-            ExplicitWidth = 735
             object Label4: TLabel
               Left = 24
               Top = 59
@@ -1342,7 +1335,7 @@ object FPrincipal: TFPrincipal
               Width = 393
               Height = 23
               TabOrder = 0
-              Text = 'highsoft'
+              Text = 'D:\Programas\DSist\Database\Dsist.FDB'
             end
             object edtUsuario: TEdit
               Left = 24
@@ -1350,7 +1343,7 @@ object FPrincipal: TFPrincipal
               Width = 121
               Height = 23
               TabOrder = 1
-              Text = 'hs'
+              Text = 'sysdba'
             end
             object edtSenha: TEdit
               Left = 24
@@ -1358,7 +1351,7 @@ object FPrincipal: TFPrincipal
               Width = 121
               Height = 23
               TabOrder = 2
-              Text = '010896'
+              Text = 'masterkey'
             end
             object btnConectar: TButton
               Left = 24
@@ -1395,7 +1388,6 @@ object FPrincipal: TFPrincipal
             BevelEdges = [beBottom]
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 735
             object cbDriver: TComboBox
               Left = 24
               Top = 6
@@ -1432,14 +1424,16 @@ object FPrincipal: TFPrincipal
             ParentBackground = False
             ParentFont = False
             TabOrder = 2
-            ExplicitWidth = 735
           end
         end
       end
       object pgGerador: TTabSheet
         Caption = 'Gerador'
         ImageIndex = 1
-        ExplicitWidth = 735
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel11: TPanel
           Left = 0
           Top = 0
@@ -1447,7 +1441,6 @@ object FPrincipal: TFPrincipal
           Height = 499
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 735
           object Panel3: TPanel
             Left = 1
             Top = 1
@@ -1465,7 +1458,6 @@ object FPrincipal: TFPrincipal
             ParentBackground = False
             ParentFont = False
             TabOrder = 0
-            ExplicitWidth = 733
           end
           object pnContent: TPanel
             Left = 1
@@ -1475,7 +1467,6 @@ object FPrincipal: TFPrincipal
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitWidth = 733
             object Panel6: TPanel
               Left = 0
               Top = 0
@@ -1497,9 +1488,6 @@ object FPrincipal: TFPrincipal
                 Align = alClient
                 ItemHeight = 13
                 TabOrder = 1
-                ExplicitTop = 57
-                ExplicitWidth = 241
-                ExplicitHeight = 400
               end
               object Panel7: TPanel
                 Left = 0
@@ -1509,7 +1497,6 @@ object FPrincipal: TFPrincipal
                 Align = alTop
                 BevelOuter = bvNone
                 TabOrder = 0
-                ExplicitWidth = 241
                 object Label9: TLabel
                   Left = 1
                   Top = 6
@@ -1552,7 +1539,6 @@ object FPrincipal: TFPrincipal
               Height = 457
               Align = alClient
               TabOrder = 1
-              ExplicitTop = 6
               object pgGeradorClasses: TPageControl
                 Left = 1
                 Top = 1
@@ -1563,6 +1549,10 @@ object FPrincipal: TFPrincipal
                 TabOrder = 0
                 object tbSimpleORM: TTabSheet
                   Caption = 'SimpleORM'
+                  ExplicitLeft = 0
+                  ExplicitTop = 0
+                  ExplicitWidth = 0
+                  ExplicitHeight = 0
                   object Panel12: TPanel
                     Left = 0
                     Top = 0
@@ -1644,6 +1634,10 @@ object FPrincipal: TFPrincipal
                 object tbHorse: TTabSheet
                   Caption = 'Horse'
                   ImageIndex = 1
+                  ExplicitLeft = 0
+                  ExplicitTop = 0
+                  ExplicitWidth = 0
+                  ExplicitHeight = 0
                   object btRoutersHorse: TButton
                     Left = 3
                     Top = 9
@@ -1651,6 +1645,57 @@ object FPrincipal: TFPrincipal
                     Height = 25
                     Caption = 'Routers Horse'
                     TabOrder = 0
+                    OnClick = btRoutersHorseClick
+                  end
+                  object ckRoutersGetAll: TCheckBox
+                    Left = 166
+                    Top = 3
+                    Width = 113
+                    Height = 17
+                    Caption = 'Routers GetAll'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 1
+                  end
+                  object ckRoutersGetID: TCheckBox
+                    Left = 166
+                    Top = 20
+                    Width = 113
+                    Height = 17
+                    Caption = 'Routers GetID'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 2
+                  end
+                  object ckRoutersInsert: TCheckBox
+                    Left = 166
+                    Top = 37
+                    Width = 113
+                    Height = 17
+                    Caption = 'Routers Insert'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 3
+                  end
+                  object ckRoutersUpdate: TCheckBox
+                    Left = 270
+                    Top = 3
+                    Width = 113
+                    Height = 17
+                    Caption = 'Routers Update'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 4
+                  end
+                  object ckRoutersDelete: TCheckBox
+                    Left = 270
+                    Top = 20
+                    Width = 113
+                    Height = 17
+                    Caption = 'Routers Delete'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 5
                   end
                 end
               end
@@ -1662,11 +1707,8 @@ object FPrincipal: TFPrincipal
                 Align = alClient
                 BevelInner = bvNone
                 BevelOuter = bvNone
+                ScrollBars = ssVertical
                 TabOrder = 1
-                ExplicitLeft = 0
-                ExplicitTop = 68
-                ExplicitWidth = 524
-                ExplicitHeight = 361
               end
             end
           end
@@ -1685,7 +1727,6 @@ object FPrincipal: TFPrincipal
     OpenedWidth = 200
     Placement = svpRight
     TabOrder = 3
-    ExplicitLeft = 800
     object ListForms: TListBox
       Left = 0
       Top = 0

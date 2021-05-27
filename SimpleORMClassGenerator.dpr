@@ -11,7 +11,8 @@ uses
   Model.FileControl in 'Model\Model.FileControl.pas',
   Model.EntityGenerate in 'Model\Model.EntityGenerate.pas',
   Model.Generator.Params in 'Model\Model.Generator.Params.pas',
-  Model.ModelGenerate in 'Model\Model.ModelGenerate.pas';
+  Model.ModelGenerate in 'Model\Model.ModelGenerate.pas',
+  Model.RoutersGenerate in 'Model\Model.RoutersGenerate.pas';
 
 {$R *.res}
 

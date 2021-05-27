@@ -74,6 +74,7 @@ begin
   FQuery
     .SQLClear
     .SQL('select * from '+ FTabela)
+    .SQL('where 1 > 1 ')
   .Open;
 
   mUnit := TModelFileControl.New;
@@ -86,6 +87,7 @@ begin
     .Add('uses')
     .Add('  System.Generics.Collections,')
     .Add('  System.Classes,')
+    .Add('  Data.DB,')
     .Add('  Rest.Json,')
     .Add('  System.JSON,')
     .Add('  SimpleAttributes;')
@@ -164,7 +166,7 @@ const _Real    = 'double';
       _string  = 'string';
       _Date    = 'TDate';
       _DateTime= 'TDateTime';
-      _Blob    = 'TBlobField';
+      _Blob    = 'string';
 begin
   if aClassName = 'TIntegerField' then
     Result := _Integer

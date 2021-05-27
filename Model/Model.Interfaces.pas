@@ -11,12 +11,14 @@ type
    iModelEntityGenerate = interface;
    iModelGeneratorParams = interface;
    iModelModelGenerate = interface;
+   iModelRoutersGenerate = interface;
 
   iModelGenerator = interface
     ['{D94A9F44-0E64-411A-940B-E1F2B29DEE08}']
     function Params : iModelGeneratorParams;
     function EntityGenerate: iModelEntityGenerate;
     function ModelGenerate: iModelModelGenerate;
+    function RoutersGenerate: iModelRoutersGenerate;
   end;
 
   iModelGeneratorParams = interface
@@ -45,9 +47,17 @@ type
   end;
 
   iModelModelGenerate = interface
-    ['{0416D202-BFCE-499D-9CFD-683FF7E23116}']
+    ['{5E17278D-C4BF-4DFF-BE77-F3A0C188D81A}']
     function Tabelas(aValue : TStrings) : iModelModelGenerate;
     function Generate : iModelModelGenerate;
+    function &End :iModelGenerator;
+  end;
+
+  iModelRoutersGenerate = interface
+    ['{05268B92-1409-4197-A546-5A2557B8B0A5}']
+    function Connection( aConnection : iModelDAOConnection) : iModelRoutersGenerate;
+    function Tabelas(aValue : TStrings) : iModelRoutersGenerate;
+    function Generate : iModelRoutersGenerate;
     function &End :iModelGenerator;
   end;
 
