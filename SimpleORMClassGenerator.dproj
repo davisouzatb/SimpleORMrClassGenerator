@@ -107,13 +107,8 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Model\Model.Interfaces.pas"/>
-        <DCCReference Include="Model\Model.Generator.pas"/>
-        <DCCReference Include="Model\Model.Util.pas"/>
-        <DCCReference Include="Model\Model.FileControl.pas"/>
         <DCCReference Include="Model\Model.EntityGenerate.pas"/>
-        <DCCReference Include="Model\Model.Generator.Params.pas"/>
-        <DCCReference Include="Model\Model.ModelGenerate.pas"/>
-        <DCCReference Include="Model\Model.RoutersGenerate.pas"/>
+        <DCCReference Include="Model\Model.Util.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

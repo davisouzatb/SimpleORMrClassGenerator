@@ -73,7 +73,7 @@ type
         procedure GetTableListSQLite;
         procedure GetTableListMSSQL;
         procedure GetTableListOracle;
-        procedure GetTableListPG;
+        procedure GetTableListPostgres;
       public
         constructor Create( aConnection : iModelDAOConnection);
         Destructor Destroy; override;
@@ -138,7 +138,7 @@ begin
   else if FConnection.Params.DriverID = 'Ora' then
     GetTableListOracle
   else if FConnection.Params.DriverID = 'PG' then
-    GetTableListPG
+    GetTableListPostgres
   else
     raise Exception.Create('GetTableList não implementada!');
 
@@ -157,52 +157,52 @@ end;
 
 procedure TModelDAOConnectionQuery.GetTableListFirebird;
 begin
-  Self
-    .SQLClear
-      .SQL('select rdb$relation_name from rdb$relations where rdb$system_flag = 0 order by rdb$relation_name;')
-    .Open;
+  FQuery.Open('select rdb$relation_name from rdb$relations where rdb$system_flag = 0 order by rdb$relation_name;');
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListMSSQL;
 begin
-  Self
-    .SQLClear
-      .SQL('SELECT TABLE_NAME FROM information_schema.tables order by TABLE_NAME;')
-    .Open;
+  FQuery.Open('SELECT TABLE_NAME FROM information_schema.tables order by TABLE_NAME;');
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListOracle;
+var
+  aSQL : TStringList;
 begin
-  Self
-    .SQLClear
-    .SQL('SELECT')
-    .SQL('    lower(t.owner) || ''.'' || t.table_name as table_name ')
-    .SQL('from all_tables t')
-    .SQL('where not (t.table_name like ' + QuotedStr('%$%') + ')') // não listar as tabelas do sistema
-    .SQL('order by')
-    .SQL('t.table_name')
-  .Open;
+  aSQL := TStringList.Create;
+  try
+    aSQL.Clear;
+    aSQL.BeginUpdate;
+    aSQL.Add('SELECT');
+    aSQL.Add('    lower(t.owner) || ''.'' || t.table_name as table_name ');
+//    aSQL.Add('    t.tablespace_name');
+//    aSQL.Add('  , t.table_name');
+//    aSQL.Add('  , t.owner');
+    aSQL.Add('from all_tables t');
+    aSQL.Add('where not (t.table_name like ' + QuotedStr('%$%') + ')'); // não listar as tabelas do sistema
+    aSQL.Add('order by');
+    aSQL.Add('    t.table_name');
+    aSQL.EndUpdate;
+
+    FQuery.Open(aSQL.Text);
+  finally
+    aSQL.DisposeOf;
+  end;
 end;
 
-procedure TModelDAOConnectionQuery.GetTableListPG;
+procedure TModelDAOConnectionQuery.GetTableListPostgres;
 begin
-  Self
-    .SQLClear
-    .SQL('SELECT' +
+  FQuery.Open('SELECT' +
               ' TABLE_NAME ' +
               ' FROM INFORMATION_SCHEMA.COLUMNS ' +
               ' WHERE TABLE_SCHEMA = ''public'' ' +
               ' GROUP BY TABLE_NAME ' +
-              ' ORDER BY TABLE_NAME ')
-    .Open;
+              ' ORDER BY TABLE_NAME ');
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListSQLite;
 begin
-  Self
-    .SQLClear
-      .SQL('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name;')
-    .Open;
+  FQuery.Open('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name;');
 end;
 
 function TModelDAOConnectionQuery.DataSet: TDataSet;

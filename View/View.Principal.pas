@@ -24,7 +24,7 @@ uses
   System.ImageList,
   Model.DAO.Interfaces,
   Model.DAO.Connection.FireDac,
-  Model.Generator;
+  Model.EntityGenerate;
 
 type
   TFPrincipal = class(TForm)
@@ -66,34 +66,22 @@ type
     Panel7: TPanel;
     btMarcar: TButton;
     btDesmarcar: TButton;
+    Panel5: TPanel;
+    Panel8: TPanel;
+    btGerarClass: TButton;
+    edtPrefixoEntidades: TEdit;
+    edtCaminhoArquivos: TEdit;
+    mResult: TMemo;
     edtPorta: TEdit;
     Label4: TLabel;
     Label3: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label9: TLabel;
-    edtCaminhoArquivos: TEdit;
-    Panel5: TPanel;
-    pgGeradorClasses: TPageControl;
-    tbSimpleORM: TTabSheet;
-    mResult: TMemo;
-    Panel12: TPanel;
-    Label8: TLabel;
-    Label10: TLabel;
-    btGerarClass: TButton;
-    edtPrefixoEntidades: TEdit;
     ckCapitalizar: TCheckBox;
     ckRemoverCaracter: TCheckBox;
-    btGerarModel: TButton;
-    edtPrefixoProjeto: TEdit;
-    tbHorse: TTabSheet;
-    btRoutersHorse: TButton;
-    ckRoutersGetAll: TCheckBox;
-    ckRoutersGetID: TCheckBox;
-    ckRoutersInsert: TCheckBox;
-    ckRoutersUpdate: TCheckBox;
-    ckRoutersDelete: TCheckBox;
+    Label8: TLabel;
+    Label9: TLabel;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -105,11 +93,8 @@ type
     procedure GetTableList;
     procedure btMarcarClick(Sender: TObject);
     procedure btDesmarcarClick(Sender: TObject);
-    procedure cbDriverChange(Sender: TObject);
-    procedure catPrincipalCategories0Items2Click(Sender: TObject);
     procedure btGerarClassClick(Sender: TObject);
-    procedure btGerarModelClick(Sender: TObject);
-    procedure btRoutersHorseClick(Sender: TObject);
+    procedure cbDriverChange(Sender: TObject);
   private
     FConnection : iModelDAOConnection;
     { Private declarations }
@@ -166,85 +151,6 @@ begin
   end;
 end;
 
-procedure TFPrincipal.btRoutersHorseClick(Sender: TObject);
-var
-  j : Integer;
-  vTabelas : TStringList;
-begin
-  if not FConnection.Connection.Connected then
-  begin
-    ShowMessage('Base de dados não conectada');
-    Abort;
-  end;
-  mResult.Lines.Clear;
-  vTabelas := TStringList.Create;
-  try
-    for j := 0 to chkListaTabelas.Count -1 do
-    begin
-      Application.ProcessMessages;
-      if chkListaTabelas.Checked[j] then
-        vTabelas.Add(chkListaTabelas.Items[j].Trim);
-    end;
-
-    TModelGenerator.New
-      .Params
-        .Diretorio(edtCaminhoArquivos.Text)
-        .Projeto(edtPrefixoProjeto.Text)
-        .Prefixo(edtPrefixoEntidades.Text)
-        .Captalizar(ckCapitalizar.Checked)
-        .RemoverCaracter(ckRemoverCaracter.Checked)
-        .Display(Notify)
-      .&End
-      .RoutersGenerate
-        .Connection(FConnection)
-        .Tabelas(vTabelas)
-        .Generate
-      .&End;
-  finally
-    vTabelas.Free;
-  end;
-  ShowMessage('Concluído');
-end;
-
-procedure TFPrincipal.btGerarModelClick(Sender: TObject);
-var
-  j : Integer;
-  vTabelas : TStringList;
-begin
-  if not FConnection.Connection.Connected then
-  begin
-    ShowMessage('Base de dados não conectada');
-    Abort;
-  end;
-  mResult.Lines.Clear;
-  vTabelas := TStringList.Create;
-  try
-    for j := 0 to chkListaTabelas.Count -1 do
-    begin
-      Application.ProcessMessages;
-      if chkListaTabelas.Checked[j] then
-        vTabelas.Add(chkListaTabelas.Items[j].Trim);
-    end;
-
-    TModelGenerator.New
-      .Params
-        .Diretorio(edtCaminhoArquivos.Text)
-        .Projeto(edtPrefixoProjeto.Text)
-        .Prefixo(edtPrefixoEntidades.Text)
-        .Captalizar(ckCapitalizar.Checked)
-        .RemoverCaracter(ckRemoverCaracter.Checked)
-        .Display(Notify)
-      .&End
-      .ModelGenerate
-        .Tabelas(vTabelas)
-        .Generate
-      .&End;
-  finally
-    vTabelas.Free;
-  end;
-  ShowMessage('Concluído');
-end;
-
 procedure TFPrincipal.btMarcarClick(Sender: TObject);
 var
   i : integer;
@@ -274,25 +180,20 @@ begin
     ShowMessage('Base de dados não conectada');
     Abort;
   end;
-  mResult.Lines.Clear;
+
   for j := 0 to chkListaTabelas.Count -1 do
   begin
     Application.ProcessMessages;
     if chkListaTabelas.Checked[j] then
-      TModelGenerator.New
-        .Params
-          .Diretorio(edtCaminhoArquivos.Text)
-          .Projeto(edtPrefixoProjeto.Text)
-          .Prefixo(edtPrefixoEntidades.Text)
-          .Captalizar(ckCapitalizar.Checked)
-          .RemoverCaracter(ckRemoverCaracter.Checked)
-          .Display(Notify)
-        .&End
-        .EntityGenerate
-          .Connection(FConnection)
-          .Tabela(chkListaTabelas.Items[j].Trim)
-          .Generate
-        .&End;
+      TModelEntityGenerate.New
+        .Connection(FConnection)
+        .Diretorio(edtCaminhoArquivos.Text)
+        .Prefixo(edtPrefixoEntidades.Text)
+        .Tabela(chkListaTabelas.Items[j].Trim)
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
+        .Dispay(Notify)
+      .Generate;
   end;
   ShowMessage('Concluído');
 end;
@@ -302,7 +203,6 @@ begin
   HabilitaTimer;
   FConnection := TModelDAOConnection.New;
   HabilitaTabs(pgConexao);
-  ReportMemoryLeaksOnShutdown := True;
 end;
 
 procedure TFPrincipal.FormResize(Sender: TObject);
@@ -373,7 +273,6 @@ end;
 
 procedure TFPrincipal.Action2Execute(Sender: TObject);
 begin
-  pgGeradorClasses.ActivePageIndex := 0;
   HabilitaTabs(pgGerador);
   OnResize(nil);
 end;
@@ -381,13 +280,6 @@ end;
 procedure TFPrincipal.catPrincipalCategories0Items0Click(Sender: TObject);
 begin
   HabilitaTabs(pgConexao);
-  OnResize(nil);
-end;
-
-procedure TFPrincipal.catPrincipalCategories0Items2Click(Sender: TObject);
-begin
-  pgGeradorClasses.ActivePageIndex := 1;
-  HabilitaTabs(pgGerador);
   OnResize(nil);
 end;
 
