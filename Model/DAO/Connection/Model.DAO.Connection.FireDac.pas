@@ -73,6 +73,7 @@ type
         procedure GetTableListSQLite;
         procedure GetTableListMSSQL;
         procedure GetTableListOracle;
+        procedure GetTableListPG;
       public
         constructor Create( aConnection : iModelDAOConnection);
         Destructor Destroy; override;
@@ -136,6 +137,8 @@ begin
     GetTableListMSSQL
   else if FConnection.Params.DriverID = 'Ora' then
     GetTableListOracle
+  else if FConnection.Params.DriverID = 'PG' then
+    GetTableListPG
   else
     raise Exception.Create('GetTableList não implementada!');
 
@@ -179,6 +182,19 @@ begin
     .SQL('order by')
     .SQL('t.table_name')
   .Open;
+end;
+
+procedure TModelDAOConnectionQuery.GetTableListPG;
+begin
+  Self
+    .SQLClear
+    .SQL('SELECT' +
+              ' TABLE_NAME ' +
+              ' FROM INFORMATION_SCHEMA.COLUMNS ' +
+              ' WHERE TABLE_SCHEMA = ''public'' ' +
+              ' GROUP BY TABLE_NAME ' +
+              ' ORDER BY TABLE_NAME ')
+    .Open;
 end;
 
 procedure TModelDAOConnectionQuery.GetTableListSQLite;
