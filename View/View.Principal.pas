@@ -299,6 +299,7 @@ end;
 
 procedure TFPrincipal.FormCreate(Sender: TObject);
 begin
+  LData.Caption := FormatDateTime('dd/mm/yyyy',Now);
   HabilitaTimer;
   FConnection := TModelDAOConnection.New;
   HabilitaTabs(pgConexao);
