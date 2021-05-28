@@ -24,7 +24,7 @@ uses
   System.ImageList,
   Model.DAO.Interfaces,
   Model.DAO.Connection.FireDac,
-  Model.Generator;
+  Model.EntityGenerate;
 
 type
   TFPrincipal = class(TForm)
@@ -95,7 +95,6 @@ type
     procedure btDesmarcarClick(Sender: TObject);
     procedure btGerarClassClick(Sender: TObject);
     procedure cbDriverChange(Sender: TObject);
-    procedure btGerarModelClick(Sender: TObject);
   private
     FConnection : iModelDAOConnection;
     { Private declarations }
@@ -152,13 +151,6 @@ begin
   end;
 end;
 
-procedure TFPrincipal.btGerarModelClick(Sender: TObject);
-var
-  j : Integer;
-begin
-//
-end;
-
 procedure TFPrincipal.btMarcarClick(Sender: TObject);
 var
   i : integer;
@@ -193,19 +185,15 @@ begin
   begin
     Application.ProcessMessages;
     if chkListaTabelas.Checked[j] then
-      TModelGenerator.New
-        .Params
-          .Diretorio(edtCaminhoArquivos.Text)
-          .Prefixo(edtPrefixoEntidades.Text)
-          .Captalizar(ckCapitalizar.Checked)
-          .RemoverCaracter(ckRemoverCaracter.Checked)
-          .Display(Notify)
-        .&End
-        .EntityGenerate
-          .Connection(FConnection)
-          .Tabela(chkListaTabelas.Items[j].Trim)
-          .Generate
-        .&End;
+      TModelEntityGenerate.New
+        .Connection(FConnection)
+        .Diretorio(edtCaminhoArquivos.Text)
+        .Prefixo(edtPrefixoEntidades.Text)
+        .Tabela(chkListaTabelas.Items[j].Trim)
+        .Captalizar(ckCapitalizar.Checked)
+        .RemoverCaracter(ckRemoverCaracter.Checked)
+        .Dispay(Notify)
+      .Generate;
   end;
   ShowMessage('Concluído');
 end;
@@ -215,7 +203,6 @@ begin
   HabilitaTimer;
   FConnection := TModelDAOConnection.New;
   HabilitaTabs(pgConexao);
-  ReportMemoryLeaksOnShutdown := True;
 end;
 
 procedure TFPrincipal.FormResize(Sender: TObject);
