@@ -94,6 +94,7 @@ type
     ckRoutersInsert: TCheckBox;
     ckRoutersUpdate: TCheckBox;
     ckRoutersDelete: TCheckBox;
+    ckSwagger: TCheckBox;
     procedure logoClick(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
     procedure Action7Execute(Sender: TObject);
@@ -285,6 +286,7 @@ begin
           .Projeto(edtPrefixoProjeto.Text)
           .Prefixo(edtPrefixoEntidades.Text)
           .Captalizar(ckCapitalizar.Checked)
+          .RemoverCaracter(ckRemoverCaracter.Checked)
           .RemoverCaracter(ckRemoverCaracter.Checked)
           .Display(Notify)
         .&End

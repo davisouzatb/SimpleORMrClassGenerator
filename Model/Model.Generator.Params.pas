@@ -16,6 +16,7 @@ type
         FPrefixo : String;
         FProjeto : String;
         FCaptalizar : Boolean;
+        FSwaggerDoc : Boolean;
         FRemoverCaracter : Boolean;
       public
         constructor Create( aParent : iModelGenerator);
@@ -23,6 +24,8 @@ type
         class function New( aParent : iModelGenerator) : iModelGeneratorParams;
         function Captalizar( aValue: Boolean) : iModelGeneratorParams; overload;
         function Captalizar: Boolean; overload;
+        function SwaggerDoc( aValue: Boolean) : iModelGeneratorParams; overload;
+        function SwaggerDoc : Boolean; overload;
         function RemoverCaracter( aValue: Boolean) : iModelGeneratorParams; overload;
         function RemoverCaracter: Boolean; overload;
         function Display( aDisplay : TProc<string>) : iModelGeneratorParams; overload;
@@ -129,6 +132,17 @@ end;
 function TModelGeneratorParams.RemoverCaracter: Boolean;
 begin
   Result := FRemoverCaracter;
+end;
+
+function TModelGeneratorParams.SwaggerDoc: Boolean;
+begin
+  Result := FSwaggerDoc;
+end;
+
+function TModelGeneratorParams.SwaggerDoc(aValue: Boolean): iModelGeneratorParams;
+begin
+  Result := Self;
+  FSwaggerDoc := aValue;
 end;
 
 end.

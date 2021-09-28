@@ -27,6 +27,8 @@ type
     function Captalizar: Boolean; overload;
     function RemoverCaracter( aValue: Boolean) : iModelGeneratorParams; overload;
     function RemoverCaracter: Boolean; overload;
+    function SwaggerDoc( aValue: Boolean) : iModelGeneratorParams; overload;
+    function SwaggerDoc : Boolean; overload;
     function Display( aDisplay : TProc<string>) : iModelGeneratorParams; overload;
     function Display(aValue : String): iModelGeneratorParams; overload;
     function Diretorio( aValue : String) : iModelGeneratorParams; overload;

@@ -1561,6 +1561,8 @@ object FPrincipal: TFPrincipal
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
+                    ExplicitLeft = 1
+                    ExplicitTop = -2
                     object Label8: TLabel
                       Left = 269
                       Top = 11
@@ -1628,6 +1630,16 @@ object FPrincipal: TFPrincipal
                       Height = 21
                       TabOrder = 5
                       Text = 'ServerHorse'
+                    end
+                    object ckSwagger: TCheckBox
+                      Left = 398
+                      Top = 50
+                      Width = 113
+                      Height = 17
+                      Caption = 'Swagger Entity'
+                      Checked = True
+                      State = cbChecked
+                      TabOrder = 6
                     end
                   end
                 end
